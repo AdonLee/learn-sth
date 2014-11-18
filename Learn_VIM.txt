@@ -1,0 +1,23 @@
+
+# set the weight of usage of memory and swap(need system reboot) 
+# add vm.swappiness= n[0-100] to the last line of /etc/sysctl.conf 
+# 'cat /proc/sys/vm/swappiness': check the swappiness;
+# 0 means tring hard to use memory but swap   --2014 08 24
+
+# about VIM
+# current 
+# char delete:x   nx   X
+# line delete:dd  ndd  d1G dG  d$  d0  
+# cope	     :yy  nyy  y1G yG  y$  y0
+# go	     :G   nG   g1G
+
+# H :to the highest line of screen
+# M :to the middle line of screen
+# L :to the lowest line of screen
+# G :to the lowest line of document
+
+# J :Join with next line
+# nh:before nth char
+# nj:next nth line
+# nk:before nth line
+# nl:next nth char

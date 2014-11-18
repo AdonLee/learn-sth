@@ -1,0 +1,78 @@
+assum ref = 对象编号 修改次数 R
+
+//文件头
+%PDF-1.6  
+
+//文件尾
+trailer<<
+	/Size  对象总数
+	/Root ref 		//根对象
+>>
+starxref 交叉应用表偏移地址 //用于定位其他对象位置
+%%EOF  //文件结束标志
+
+//类型对象
+对象编号 修改次数 obj
+  <<
+    /Type   //类型
+        /Catalog  //目录 文档的根对象
+
+        /Outlines //书签大纲
+    /Count n 	//说明书签个数
+
+        /Pages    //页面组
+    /Count n 	//说明page个数
+    /Kids [页面对象应用] 	个数与n一致
+
+        /Page     //页面
+    /Parent ref（所属页面组）
+    /Contents ref
+    /MediaBox [n n n n]  //标注页大小
+    /Resources 	<<
+    			/ProcSet ref
+    			/Font<<
+    				F1 ref
+    				>>
+    			>>
+
+    	/Font 	//字体
+    /Subtype 
+    /Name
+    /BaseFont 
+    /Encoding
+
+    /type 对象编号 修改次数 R   //对象引用
+    /Count n      //在outlines或pages中说明个数
+  >>
+endobj
+
+//内容对象
+    5  0  obj  
+    <<  /Length  73  >>  	
+    stream  
+      BT  
+        /F1  28  Tf  		//字体名 字号 Tf
+        100 100 Td  		//字符位置，原点为左上角
+        5 Tr  				//字体的样式修饰
+        1 0 0 rg  			//rgb填充颜色
+        0 0 1 RG  			//rgb边框颜色
+        (Hello Word !)'  	//打印的字符
+      ET  
+    endstream  
+    endobj  
+
+    6  0  obj  
+    [  /PDF  
+    		/Text  
+    		/Image
+    ]  
+    endobj  
+
+//交叉引用表
+    xref
+    起始对象号   对象总数
+    [10位起始位置  5位生成数   f/n]    //f：该对象未被引用,n反之
+    0000000000     65535       f  	   //固定的第一行
+
+defabcdef
+abcghi

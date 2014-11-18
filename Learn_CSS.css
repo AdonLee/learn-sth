@@ -1,0 +1,305 @@
+//selector
+	//CSS 1
+	E
+	Ea Ed
+	E.class
+	E#id
+	:link
+	:visited
+	E:active
+	E:first-line/first-letter	
+	.class.class 				//IE7+
+
+	//CSS 2.1
+	*					//IE6+
+	Ep>Ec				//IE7+
+	E:first-child 		//IE7+
+	E:hover 			//IE7+  IE6 only support <a> tag
+	E +　F 				//IE7+
+	E[attr]				//IE7+
+	E[attr='value']		//IE7+
+	E[attr~= 'word']	//IE7+  word in attr.split(' ')
+	E:focus 			//IE8+
+	E:before/after 		//IE8+
+
+	//CSS3
+	E ~ E 				//IE7+
+	E[attr^='value']	//IE7+
+	E[attr$='value']	//IE7+
+	E[attr*='value']	//IE7+
+	E[attr|='value']	//IE7+
+	//伪类选择器		//IE9+
+	:root			//等同于html
+	::selection 	//定义选中文本样式
+	E:target		//select Element'anchor
+	E:not(selector) //否定
+	E:empty  空
+	E:only-child  				//select Element with only one Children
+	E:last-child/first-child
+	E:nth-child(kn+b)/nth-last-child(kn+b)  		
+	E:only-of-type 				//select Element type-only in parentEle
+	E:first-of-type/last-of-type  			
+	E:nth-of-type/nth-last-of-type(kn+b)  
+	E:enabled/disabled/checked/read-only/read-write(/default/indeterminate)
+
+
+
+
+//单位 unit
+	px
+	em
+	%
+	rem 		#em of root(html)
+	vh/vw 		#1vh/vm = 1% of screen.height/width
+	vmin/vmax 	#min/max(vh, vw)
+	ex 			#当前字体的小写x字母的高度或者 1/2 的 1em
+	ch 			#数字0的宽度
+
+//××××××××××××20140827××××××××××××//
+
+//能够加载服务器端的字体文件，让浏览器端可以显示用户电脑里没有安装的字体。
+	@font-face {  
+	    font-family : 字体名称;
+	    src : 字体文件在服务器上的相对或绝对路径;
+	}
+
+//设置元素背景图片的原始起始位置。
+//需要注意的是，如果背景不是no-repeat，这个属性无效，它会从边框开始显示。
+background-origin: border-box | padding-box | content-box(参数同box——sizing)
+
+//将背景图片做适当的裁剪以适应实际需要。
+background-clip: bordre-box | padding-box | content-box | no-clip
+
+//设置背景图片的大小，以长度值或百分比显示，还可以通过cover和contain来对图片进行伸缩。
+background-size: auto | <长度值> | <百分比> | cover | contain
+
+//属性选择器
+Element[attr($|^|*)="val"] //分别以val结尾|开头|包含
+
+
+
+//变换
+transform：rotate(angle) positive value means clockwise 
+transform: skew(x, y)/skewX(x)/skewY(y)
+transform: scale(x, y)/scaleX(x)/scaleY(y)
+transform: translate(x, y)/translateX(x)/translateY(y)/translateZ(放大)
+transform: matrix(?,?,?,?,tranlateX,translateY)
+transform-origin:(x, y)/column(top bottom left right)
+transform-style: flat|preserve-3D
+
+//过度?????
+transition: property duration timing-func delay
+	timing-func: ease/linear/ease-in/ease-out/ease-in-out
+
+//关键帧  assigned to animation
+	@-prefix-Keyframes name {
+		percent1{
+			......
+		}
+		percent2{
+			......
+		}
+		......
+	}
+//调用动画
+-prefix-animation：name duration timing-func delay iteration-count 
+	direction: normal 循环;alternate 来回 
+	play-stats:runing paused
+	fill-mode: none| forwards| backwards|both ????
+
+//盒模型
+margin |padding: top right bottom left , top!bottom right|left, top right|left bottom
+
+//盒模型尺寸解析方式
+box-sizing: content-box| border-box(height = content+ padding + border)
+
+//盒模型层次
+border content+padding background-image background-color margin
+
+//媒体查询 media queries ：set css to corresponding media
+assume MT = "all| screen| print..."  
+assume MQ = "(not) MT and mediaAttr[and mediaAttr.....]"
+assume MQ = MQ[,MQ]*
+1.use MQ as the media attr in link tab
+2.@import url("###.css")MT //use in css file or style tab ,but ie6/7
+3.@media MQ{ css statement}  
+
+//只有缩放属性
+resize: none|both|horizontal|inherit
+
+outline: width style color offset
+
+content: none|attr()|url|string
+
+//彩色边框
+border-colors: color1, color2,... //one color, one px width
+
+//边框图片
+border-image: url round|repeat|stretch
+
+box-shadow: (x y blur expand color outset|inset)(,\1)*
+text-shadow: (x y blur color outset|inset)(,\1)*
+//省略标记实现
+text-overflow: ellipsis;
+overflow: hidden;
+wrap-space: nowrap;
+
+//css hack
+<!--[if (gt|gte|lt|lte)? IE (version)?]>
+	CSS statement
+<![endif]-->
+
+//段落排版
+text-indent
+text-decoration: underline| line-through
+text-align: left| center| right
+line-high:
+letter-spacing:
+
+//元素分类
+//常用的块状元素有：display: block
+<div>、<p>、<h1>...<h6>、<ol>、<ul>、<dl>、<table>、<address>、<blockquote> 、<form>
+1、每个块级元素都从新的一行开始，并且其后的元素也另起一行。
+2、元素的高度、宽度、行高以及顶和底边距都可设置。
+3、元素宽度父容器的100%。
+//常用的内联(行内)元素有：display: inline
+<a>、<span>、<br>、<i>、<em>、<strong>、<label>、<q>、<var>、<cite>、<code>
+1、和其他元素都在一行上；
+2、元素的高度、宽度、行高及顶部和底部边距不可设置；
+3、元素的宽度就是它包含的文字或图片的宽度，不可改变。
+//常用的内联块状元素有：display: inline-block
+<img>、<input>
+1、和其他元素都在一行上；
+2、元素的高度、宽度、行高以及顶和底边距都可设置。
+
+//css布局模型
+1、流动模型（Flow）
+	在流动模型下，元素都会在所处的包含元素内从左到右水平，从上到下分布显示。块状元素由于以行的形式占据位置，所以只是自上而下垂直分布
+
+2、浮动模型 (Float) ：=inline-block + 方向 + 环绕
+	1.不脱离文档流，脱离行排列(行实际高度取决于高度最高的元素 ||line-height)
+	2.浮动会使元素成为行内块元素，宽度默认自适应内容
+	3.在排版流里自定义排列方向,影响后面元素
+	4.后面邻接的行、块元素会环绕浮动元素，用于实现文字环绕
+	5.清除环绕(对于块元素)：当元素宽度大于剩余宽度转入换行
+		1.overflow:hidden;
+		3.display：inline-block;
+		2.clear:both/left/right
+
+3、层模型（Layer）
+	1、相对定位(position: relative)
+		相对于默认文档流位置，
+	2、绝对定位(position: absolute)
+		脱离文档流，相对于其最接近的一个具有定位属性的父包含块。无则相对于body元素，即浏览器窗口。
+		宽度自适应内容
+	3、固定定位(position: fixed)
+		脱离文档流，相对于浏览器窗口，可看作特殊的绝对定位
+		宽度自适应内容
+	再根据top bottom left right属性定位
+	而其层叠顺序则通过z-index属性来定义。
+
+//样式缩写
+	font: style variant weight size/height font-family
+
+//CSS3目前有5种布局方案：
+	1. 多栏布局(Multi-Column Layout ) 适合内容流布局，不适合页面布局。
+		columns：width count
+		column-width：		#目前还不支持
+		column-count：
+		column-gap：
+		column-rule：width style color: 列分割框 参数同border
+		column-span: none| all 用于子元素
+	2. 灵活盒布局(Flexible Box Layout)//伸缩布局
+		//define a flex container
+			display: flex   
+			flex-direction: column|row // vertically and horizonly
+			justfy-content|align-items: flex-start| center| flex-end
+			flex-flow: [flex-direction] [flex-wrap]
+		//define a flexitem
+			flex: n  //set flexitem
+			order：n //set the order flexitem
+	3. 栅格布局(Grid Layout)
+	4. CSS3的浮动盒(CSS3 Floating Boxes)
+	5. Regions
+
+//scroolbar
+	http://codemug.com/html/custom-scrollbars-using-css/
+	//for IE
+	body{
+	  scrollbar-base-color: #C0C0C0;
+	  scrollbar-3dlight-color: #C0C0C0;
+	  scrollbar-highlight-color: #C0C0C0;
+	  scrollbar-track-color: #EBEBEB;
+	  scrollbar-arrow-color: black;
+	  scrollbar-shadow-color: #C0C0C0;
+	  scrollbar-dark-shadow-color: #C0C0C0;
+	}
+	//for chrome
+	::-webkit-scrollbar { width: 3px; height: 3px;}
+	::-webkit-scrollbar-button {  background-color: #666; }
+	::-webkit-scrollbar-track {  background-color: #999;}
+	::-webkit-scrollbar-track-piece { background-color: #ffffff;}
+	::-webkit-scrollbar-thumb { height: 50px; background-color: #666; border-radius: 3px;}
+	::-webkit-scrollbar-corner { background-color: #999;}}
+	::-webkit-resizer { background-color: #666;}
+	//for FF
+	@-moz-document url-prefix(http://),url-prefix(https://) {
+		scrollbar {
+		   -moz-appearance: none !important;
+		   background: rgb(0,255,0) !important;
+		}
+		thumb,scrollbarbutton {
+		   -moz-appearance: none !important;
+		   background-color: rgb(0,0,255) !important;
+		}
+		thumb:hover,scrollbarbutton:hover {
+		   -moz-appearance: none !important;
+		   background-color: rgb(255,0,0) !important;
+		}
+		scrollbarbutton {
+		   display: none !important;
+		}
+		scrollbar[orient="vertical"] {
+		  min-width: 15px !important;
+		}
+	}
+
+
+
+
+//less
+	1.自定义变量, 只能赋值一次类似常量
+	@variable: value   //@color：#4D6535
+
+	2.混合,//类似函数,通过.mixin应用到其他类中
+	.mixin( @var: defaultVal ){ 	
+		//less code
+	}
+
+	3.嵌套
+	#p{ c{&:hover{}}} ==> #p{} #p c{} #p c:hover{} 
+
+	4.函数与操作符
+	涵盖了基本加、减、乘、除，能够对属性值或颜色进行计算。
+	#数学函数
+	ceil/floor/round/sqrt/abs/pow/mod/min/max
+	/percentage  #将浮点转为百分比
+	cos/acos/sin/asin/tan/atam/pi/
+
+	#类型函数
+	is
+		number/string/color/keyword/url/pixel/em/percentage
+		/unit  #unit(待验证变量， 单位标志符)，验证指定单位的值
+
+
+//bootstrap
+.btn
+	.btn-default
+	.btn-primary
+	.btn-success
+	.btn-info
+	.btn-warning
+	.btn-danger
+	.btn-[xs|sm|lg]
+	.btn-group-[xs|sm|lg]
+	.btn-block
