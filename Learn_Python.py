@@ -1,13 +1,59 @@
 #数据类型
-	#list 
+#整数，浮点数，字符串，布尔值(True/False, and/not/or)，空值(None)
+#python 视0、''，None为False
+#list 有序可变数组
+	list = []
 	list.pop(index || end)
+	list.append(val)
 	list.insert(index, val)
-	list[index]  
-	#tuple	('a', 'b', 'c')
+	list[index]  #可用负数
+	list.join()
+#tuple 有序不可变数组
+	#当只有一个元素是后面加','避免歧义(1,)
+	tuple = ()
 	tuple[index]
-	#dic (key-value)
+#dict 无序键值对集合，键唯一且不可变，速度快，耗内存
+	dict = {}
+	dict['key'] = value
+	dict.get('key')
+	dict.values() 			#value list
+	dict.itervalues() 	#对应生成器
+	dict.items()  			#tuple(key,value) list
+	dict.iteritems()  	#对应生成器
+	'key' in dict
+	for(key in dict)
 
-	#set
+#set 无序不重复集合， 只能用in判断是否存在或for in遍历
+	set = set([]) #传入一个list
+	set.add() 		#存在？不添加：添加
+	set.remove()	#存在？移除：报错（keyError）
+
+#切片 list、tuple、String都可
+	list[start=0:end=len:step=1] #start->end-1,step可为负，表示方向切片
+#生成列表
+	range(start, end, step=1) # start->end-1
+	[x*x for x in range(start, end, step=1) if condition]
+	[x*x for ... for... if condition]
+#格式化字符串
+	'kkd%skdkk%sds'%(a, b)
+	'{},{}'.format('kzc',18)    			#==>'kzc,18'  	2.7+
+	'{0},{1}'.format('kzc',18)    		#==>'kzc,18'  	2.6+
+	'{1},{0},{1}'.format('kzc',18)    #==>'18,kzc,18' 2.6+
+	'{name},{age}'.format(age=18,name='kzc') #==>'kzc,18'
+
+#魔术方法和属性
+	__name__ #被当作模块引入是=模块名，直接运行则='__main__'
+
+#if 语句
+if [not] condition : pass
+elif condition : pass
+else : pass
+
+#for 语句
+for var in vars: pass
+
+#while 语句
+while condition: pass
 
 #类
 class child(parents):			#支持多重继承
@@ -32,6 +78,7 @@ class child(parents):			#支持多重继承
 		from types import MethodType
 		s.set_age = MethodType(set_age, s, Student) # 给实例绑定一个方法
 		Student.set_score = MethodType(set_score, None, Student)#给类绑定方法
+		
 dir(object)  #获取对象所有属性与方法
 
 
@@ -43,13 +90,14 @@ dir(object)  #获取对象所有属性与方法
 
 #匿名函数
 	lambda args：statements #没有return语句，statements结果即为输出
+	如果包含yeild语句则生成器
 
 #库目录
 /usr/lib64/python2.7
 
 #获取网页
->>> import urllib.request
->>> filename, headers = urllib.request.urlretrieve('http://python.org/'[, filename])
+>>> import urllib.request as urlreq
+>>> filename, headers = urlreq.urlretrieve('http://python.org/'[, filename])
 >>> html = open(filename)
 >>> html.close()
 
@@ -58,14 +106,17 @@ import json
 	string = json.dumps(json)
 	json =	json.loads(string)
 	
-
 #bytes to string
 	bytes = string.encode(encoding='utf-8')
 	string = bytes.decode(encoding='utf-8')
+
 #re
 	import re
 	m = re.match(re, str)
 	m.group(n)
+
+	#获取分组
+	re.compile("a(\d{1,3})b").findall('a343bkda43bsk') ==>['343','43']
 
 
 	os.path.getsize(local_filename)
@@ -80,13 +131,13 @@ os.getcwd()    						#current working directory
 os.chdir(newdir)
 os.makedirs(r"c:\python \test")		#多级目录
 os.mkdir("test")
-os.removedirs(r"c:\python") 		#删除所给路径最后一个目录下所有空目录。
+os.removedirs(r"c:\python") #删除所给路径最后一个目录下所有空目录。
 os.rmdir("test")					
-os.stat(file)						#文件属性
+os.stat(file)							#文件属性
 os.chmod(file)						
 os.system("dir")					#执行系统命令
-os.exec(), 	os.execvp()				#启动新进程：
-osspawnv()							#在后台执行程序
+os.exec(), 	os.execvp()		#启动新进程：
+osspawnv()								#在后台执行程序
 os.exit(), 	os._exit()
 os.path.splitext(r"c:\python\hello.py") --> ("c:\\python\\hello", ".py")
 os.path.split(r"c:\python\hello.py") 	--> ("c:\\python", "hello.py")
@@ -98,32 +149,6 @@ os.path.isabs(r".\python\") 			--> False 		# absolute path
 os.path.isdir(r"c:\python") 			--> True		
 os.path.isfile(r"c:\python\hello.py") 	--> True
 os.path.islink(r"c:\python\hello.py") 	--> False
-os.path.getsize(filename)				#get file size
+os.path.getsize(local_fname)		#os.stat(local_fname).st_size
 os.path.walk(dir)						#searh all files in dir
 
-1.重命名：					
-2.删除：					
-3.列出目录下的文件 ：		
-4.获取当前工作目录：		
-5.改变工作目录：			
-6.创建多级目录：			
-7.创建单个目录：			
-8.删除多个目录：			
-9.删除单个目录：			
-10.获取文件属性：			
-11.修改文件权限与时间戳：	
-12.执行操作系统命令：		
-13.启动新进程：				
-14.在后台执行程序：
-15.终止当前进程：			
-16.分离文件名：				
-17.分离扩展名：				
-18.获取路径名：				
-19.获取文件名：				
-20.判断文件或目录是否存在：	
-21.判断是否是绝对路径：		
-22.判断是否是目录：			
-23.判断是否是文件：			
-24.判断是否是链接文件：		
-25.获取文件大小：			
-26.搜索目录下的所有文件：	

@@ -32,11 +32,22 @@
 		2.use db_name
 
 	#创建表：
-		CREATE [TEMPORARY] TABLE [IF NOT EXISTS] tbl_name(columns)| SELECT....
-			column= col_name data_type(count) set(not null, auto_increment, primary key)
-			TEMPORARY:临时表	
+		CREATE [TEMPORARY] TABLE [IF [NOT] EXISTS] tbl_name(columns)| SELECT....
+			column= col_name data_type(count) data_attr
+			[NOT] NULL 		#数据列不允许包含NULL值,NULL与任何值比较都为false,需用IS [NOT]
+			DEFAULT literal	#默认值
+			PRIMARY KEY		#主键,自动为not null
+			UNIQUE KEY 		#唯一键
+			AUTO_INCREMENT[= default|1]	
+				#自动递增,适用于整数类型,必须用于主键
+				#删除时不会自动调整，需删除整列再添加
+			UNSIGNED			#无符号数
+			CHARACTER SET name	#指定一个字符集
+			FOREIGN KEY (child_col) REFERENCES tbl_name (parent_col)  #外键约束	
 	#删除表：	
 		DROP TABLE tbl_name
+	#清空表
+		TRUNCATE TABLE tbl_name
 	#修改表名：	
 		RENAME TABLE old_name TO new_name
 	#查看已创建的表：
@@ -93,65 +104,72 @@
 		#可同时多个操作,用逗号分开
 
 二、数据类型
-	1.整形
-		tinyint(m)		1个字节  范围(-128~127)
-		smallint(m)		2个字节  范围(-32768~32767)
-		mediumint(m)	3个字节  范围(-8388608~8388607)
-		int(m)			4个字节  范围(-2147483648~2147483647)
-		bigint(m)		8个字节  范围(+-9.22*10的18次方)
-	默认为有符号整型，可在后面添加 unsigned 定义为无符号整型
-	2.浮动型
-		float(m,d)	单精度8位精度(4字节) 
-		double(m,d)	双精度16位精度(8字节)   
-	 m总个数，d小数位
-	3、定点数
-		浮点型在数据库中存放的是近似值，而定点类型在数据库中存放的是精确值。 
-		decimal(m,d) 参数m<65 是总个数，d<30且 d<m 是小数位。
+	#整形,默认为有符号整型，可在后面添加 unsigned 定义为无符号整型
+		TINYINT(m)	    1B  -128~127				0-255
+		SMALLINT(m)	    2B  -32768~32767			0-65535
+		MEDIUMINT(m)    3B  -8388608~8388607		0-16,777,215
+		INT(m)		    4B  -2147483648~2147483647	0-4,294,967,295
+		BIGINT(m)	    8B  +-9.22*10的18次方		0-18,446,744,073,709,551,615
+		BOOLEAN #A synonym for TINYINT(1), zero=>false, nonzero => true
+		SERIAL #An alias for BIGINT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE
+		BIT #A bit-field type (M||1)<64, storing M of bits per value
+	#浮动型, m总个数，d小数位
+		FLOAT(m,d)	#单精度8位精度(4字节) 
+		DOUBLE(m,d)	#双精度16位精度(8字节)
+	 	REAL 		#Synonym for DOUBLE (exception: in REAL_AS_FLOAT SQL mode it is a synonym for FLOAT)
+	#定点数
+		#浮点型在数据库中存放的是近似值，而定点类型在数据库中存放的是精确值。 
+		decimal(m,d) #参数m<65 是总个数，d<30且 d<m 是小数位。
 
-	4、字符串(char,varchar,_text)
-		char(n)		固定长度，最多255个字符
-		varchar(n)	固定长度，最多65535个字符
-		tinytext	可变长度，最多255个字符
-		text		可变长度，最多65535个字符
-		mediumtext	可变长度，最多2的24次方-1个字符
-		longtext	可变长度，最多2的32次方-1个字符
-		enum(val1, val2,...) 1-2字节
-		set(val1, val2,...valn)  n<=64
-	char和varchar：
+	#字符串(char,varchar,text)
+		ENUM(val1, val2,...valn) 	#n<=65535
+		SET(val1, val2,...valn)  	#n<=64
+					#最大长度 				长度指示前缀
+		CHAR(n)		#255 (2^8 - 1) 			固定长度为n，无需长度指示前缀
+		VARCHAR(n)	#65,535 (2^16 - 1)	 	one or two-byte prefix indicating the length of the value
+		TINYTEXT 	#255 (2^8 - 1) 			one-byte
+		TEXT 		#65,535 (2^16 - 1)	 	two-byte
+		MEDIUMTEXT 	#16,777,215 (2^24 - 1)	three-byte
+		LONGTEXT 	#4GiB (2^32 - 1)		four-byte
+	#二进制数据(Blob)
+		TINYBLOB 	#255 (2^8 - 1)			one-byte 
+		BLOB 		#65,535 (2^16 - 1) 		two-byte
+		MEDIUMBLOB 	#16,777,215 (2^24 - 1) 	three-byte
+		LONGBLOB 	#4GiB (2^32 - 1)		four-byte
+
+	#BLOB AND TEXT
+		1.BLOB和text存储方式不同，TEXT以文本方式存储，英文存储区分大小写，而Blob是以二进制方式存储，不分大小写。 
+		2.BLOB存储的数据只能整体读出。 
+		3.TEXT可以指定字符集，BLOB不用指定字符集。
+	#char和varchar：
 		1.char(n) 若存入字符数小于n，则以空格补于其后，查询之时再将空格去掉。所以char类型存储的字符串末尾不能有空格，varchar不限于此。 
 		2.char(n) 固定长度，char(4)不管是存入几个字符，都将占用4个字节，varchar是存入的实际字符数+1个字节（n<=255）或2个字节(n>255)，所以varchar(4),存入3个字符将占用4个字节。 
 		3.char类型的字符串检索速度要比varchar类型的快。
 
-	varchar和text： 
+	#varchar和text： 
 		1.varchar可指定n，text不能指定，内部存储varchar是存入的实际字符数+1个字节（n<=255）或2个字节(n>255)，text是实际字符数+2个字节。 
 		2.text类型不能有默认值。 
 		3.varchar可直接创建索引，text创建索引要指定前多少个字符。varchar查询速度快于text,在都创建索引的情况下，text的索引似乎不起作用。
 
-	5.二进制数据(_Blob)
 
-		1._BLOB和_text存储方式不同，_TEXT以文本方式存储，英文存储区分大小写，而_Blob是以二进制方式存储，不分大小写。 
-		2._BLOB存储的数据只能整体读出。 
-		3._TEXT可以指定字符集，_BLOB不用指定字符集。
+	#日期时间类型
+		YEAR   		#70 (1970) to 69 (2069) or 1901 to 2155 and 0000
+		DATE		#000-01-01 to 9999-12-31
+		TIME		#-838:59:59 to 838:59:59
+		DATETIME	#1000-01-01 00:00:00 to 9999-12-31 23:59:59
+		TIMESTAMP	#1970-01-01 00:00:01 UTC to 2038-01-09 03:14:07 UTC, stored as the number of seconds since the epoch (1970-01-01 00:00:00 UTC)
+		#随其他字段修改的时候自动刷新，可以存放这条记录最后被修改的时间。
+	#Spatial
+		GEOMETRY 			#A type that can store a geometry of any type
+		POINT 				#A point in 2-dimensional space
+		LINESTRING 			#A curve with linear interpolation between points
+		POLYGON 			#A polygon
+		MULTIPOINT 			#A collection of points
+		MULTILINESTRING 	#A collection of curves with linear interpolation between points
+		MULTIPOLYGON 		#A collection of polygons
+		GEOMETRYCOLLECTION 	#A collection of geometry objects of any type
 
-	6.日期时间类型
-		year   
-		date		日期 '2008-12-2'
-		time		时间 '12:25:36'
-		datetime	日期时间 '2008-12-2 22:06:44'
-		timestamp	自动存储记录修改时间
-		若定义一个字段为timestamp，这个字段里的时间数据会随其他字段修改的时候自动刷新，所以这个数据类型的字段可以存放这条记录最后被修改的时间。
 
-	7.数据类型的属性
-		[NOT] NULL 		#数据列不允许包含NULL值,NULL与任何值比较都为false,需用IS [NOT]
-		DEFAULT literal	#默认值
-		PRIMARY KEY		#主键,自动为not null
-		UNIQUE KEY 		#唯一键
-		AUTO_INCREMENT[= default|1]	
-			#自动递增,适用于整数类型,必须用于主键
-			#删除时不会自动调整，需删除删除整列再添加
-		UNSIGNED		#无符号数
-		CHARACTER SET name	#指定一个字符集
-		FOREIGN KEY (child_col) REFERENCES tbl_name (parent_col)  #外键约束
 
 三、数据库备份
 	#导出/导入数据库  #备份时需lock table权限进行阻塞，innodb
@@ -185,7 +203,8 @@
 	INNER JOIN = CROSS JOIN = JOIN  #内连接，显示符合连接条件的记录
 	LEFT [OUTER] JOIN	#左外连接
 	RIGHT [OUTER] JOIN	#右外连接
-例子：EmployeeTB（员工信息表）： 
+例子：
+EmployeeTB（员工信息表）： 
 	employeeid employeename deptid 
 	0001  		张三  		01 
 	0002  		李四  		01 
@@ -193,7 +212,7 @@
 	0004  		赵六  		02 
 	0005  		郑七  		NULL 
 
-	DeptTB（部门信息表） 
+DeptTB（部门信息表） 
 	deptid  deptname 
 	01  	技术部 
 	02  	市场部 
@@ -242,7 +261,7 @@
 		MOD 	取余
 		POWER 	幂运算
 		ROUND() 四舍五入
-		TRUNCATE(real, n) 实数紧缺到小数点n位
+		TRUNCATE(real, n) 实数精确到小数点n位
 	#比较运算
 		[NOT] BETWEEN...AND...
 		[NOT] IN()
@@ -251,9 +270,10 @@
 		NOW()
 		CURDATE()
 		CURTIME()
+		DATEDIFF(date1, date2)   #date1-date2
+		TIMEDIFF(time1, time2)
 		DATE_ADD(date , INTERVAL n WEEK/DAY/YEAR/MONTH)
-		DATEDIFF(date1, date2)
-		DATE_FORMAT(date, %Y%m%d%H%i%s)
+		DATE_FORMAT(date, '%Y%m%d%H%i%s') #模式替换
 	#信息函数
 		CONNECTION_ID()
 		DATABASE()
@@ -290,12 +310,50 @@
 			statement
 		END
 	#调用
-	CALL sp_name 
+	CALL sp_name()
 	#删除
 	DROP PROCEDURE [IF EXISTS] sp_name
 	#声明用户变量 只对当前有效
+	DECLARE @var INT
 	SET @var = value
+	#循环语句
+	WHILE ... 
+		... 
+	END WHILE
 
+	loop_label:LOOP 
+		...
+		LEAVE loop_label
+	END LOOP
+
+	REPEAT
+		.... 
+		UNTIL ... 
+	END REPEAT
+
+	GOTO
+	#条件语句
+	IF .. THEN 
+		... 
+	END IF
+	#例子
+	DELIMITER //
+	CREATE PROCEDURE addcontent(OUT result BOOLEAN)
+	BEGIN 
+		DECLARE ctmp INT;
+	    SET ctmp = 0;
+	    loop_label:LOOP
+	        INSERT T_2 (t2_user, t2_pass) VALUES (concat('dongge_', ctmp), password(concat('tieyz_', ctmp)));
+	        IF ctmp>10 THEN
+	            SET result = TRUE;
+	        	LEAVE loop_label;
+	        END IF;
+	    	SET ctmp = ctmp +1;
+	    END LOOP;
+	END;//
+	DELIMITER ;
+	CALL addcontent(@result); #输出需用@标记引用参数
+	SELECT @result;
 十一、存储引擎
 	将数据存储在文件，内存中的技术。不同的存储引擎使用不容的存储机制、索引技巧、锁定水平，最终提供广泛而又不同的功能
 	#常用存储引擎
@@ -313,3 +371,6 @@
 			行锁
 	#事务处理
 		ACID()
+
+#触发器 trigger 
+	与表事件相关的特殊的存储过程，触发器与存储过程的唯一区别是触发器不能执行EXECUTE语句调用，而是在用户执行Transact-SQL语句时自动触发执行。
