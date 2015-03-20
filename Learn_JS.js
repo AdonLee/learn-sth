@@ -89,15 +89,15 @@
   算术操作符 → 比较操作符 → 逻辑操作符 → "="赋值符号
 
 //日期
-  Date.get/setDate() 			//日期
-  Date.get/setFullYear() 	//四位年份
-  Date.get/setYear() 			//两位
-  Date.get/setMonth() 		//
-  Date.get/setDay() 			//星期
-  Date.get/setHours() 		//
-  Date.get/setMinutes() 	//
-  Date.get/setSeconds() 	//
-  Date.get/setTime()			//时间(ms)
+  Date.get/setDate()      //日期
+  Date.get/setFullYear()  //四位年份
+  Date.get/setYear()      //两位
+  Date.get/setMonth()     //
+  Date.get/setDay()       //星期
+  Date.get/setHours()     //
+  Date.get/setMinutes()   //
+  Date.get/setSeconds()   //
+  Date.get/setTime()      //时间(ms)
 
 //字符串处理
   String.length           
@@ -207,7 +207,7 @@
   location.hostname       //      hostname
   location.port           //      port
   location.pathname       //  pathname
-  location.search         //  search	   //key and value
+  location.search         //  search     //key and value
   location.hash           //  hash       //anchor
   location.assign()
   location.reload()

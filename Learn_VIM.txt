@@ -8,8 +8,8 @@
 # current 
 # char delete:x   nx   X
 # line delete:dd  ndd  d1G dG  d$  d0  
-# cope	     :yy  nyy  y1G yG  y$  y0
-# go	     :G   nG   g1G
+# cope       :yy  nyy  y1G yG  y$  y0
+# go       :G   nG   g1G
 
 # H :to the highest line of screen
 # M :to the middle line of screen
