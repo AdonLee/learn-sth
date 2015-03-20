@@ -12,7 +12,7 @@
 	#删除用户，
 		直接删除mysql.user表对应行
 	#修改密码
-		mysql>update mysql.user set password=password('新密码') where User="" and Host=""; 
+		update mysql.user set password=password('新密码') where User="" and Host=""; 
 
 	#创建数据库：
 		CREATE DATABASE [IF NOT EXISTS] db_name params [SELECT ....]  
