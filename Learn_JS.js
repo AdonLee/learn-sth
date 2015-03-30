@@ -1,13 +1,13 @@
 //ECMAScript
   //原始类型primitive type, 空间固定，存在栈中
       Undefined       //唯一值undefined，声明但未初始化 或不存在的变量
-      Null            //对象 
+      Null            //对象
       Boolean         //false | true
-      Number 
+      Number
       String
   //引用类型， 引用值大小会改变，从栈中分配
   //检测对象类型
-    
+
     Value               Class      Type
     -------------------------------------
     new Function("")    Function   function
@@ -28,7 +28,7 @@
     new Object()        Object     object
     /abc/g              RegExp     object (function in Nitro/V8)
     new RegExp("meow")  RegExp     object (function in Nitro/V8)
-    
+
     Class = Object.prototype.toString.call(Value).slice(8, -1)
     Type  = typeof Value
     // instanceof
@@ -62,9 +62,9 @@
       }
       Constructor.prototype.membername = value;
   //私有（Private）
-      function Constructor(...) {  
+      function Constructor(...) {
           var self =  this;
-          var membername =  value;  
+          var membername =  value;
           function  membername(...)  {...}
       }
       //注意，实际上函数语句
@@ -72,7 +72,7 @@
       //是以下语句的缩写，两者相同：
       var  membername = function  membername(...)  {...};
   //特权（Privileged）
-      function Constructor(...) {  
+      function Constructor(...) {
           this.membername =  function (...)  {...};
       }
 
@@ -100,7 +100,7 @@
   Date.get/setTime()      //时间(ms)
 
 //字符串处理
-  String.length           
+  String.length
   String.[i|lastI]ndexOf(substring, offset)  //正|反向检索
   String.charAt(index)
   String.charCodeAt(index)
@@ -108,8 +108,8 @@
   String.slice(startPos, endPos=END)    //接受负数，而substring则视为0
   String.substring(startPos, endPos=END)
   String.substr(startPos, length)
-  String.toUpper/LowerCase() 
-  String.toLocaleUpper/LowerCase() 
+  String.toUpper/LowerCase()
+  String.toLocaleUpper/LowerCase()
   String.localeCompare(str)  //>str?正数：负数，相同返回0
   obj.toString()
 
@@ -142,7 +142,7 @@
   Array.unshift(eles) //prepend new and return the length
   Array.pop()         //delete and return the last
   Array.push(eles)    // append new and return the length
-  Array.splice(offset,len,[items])//replace with items then retrun which deleted 
+  Array.splice(offset,len,[items])//replace with items then retrun which deleted
   Array.map(function(a){})
   Array.reduce(function(a,b){})
 
@@ -188,11 +188,11 @@
   window.open(<URL>, _top|_blank|_selft, <参数字符串>)
       //参数字符串 top|left|width|height=number, menubar|toolbar|scrollbars|status= yes|no
 
-  //计时器(ms)     
-  window.setInterval(func, time)   //     return identifier    
-  window.setTimeout(func, time)    //     return identifier       
-  window.clearInterval(identifier) //identifier return by setInterval            
-  window.clearTimeout(identifier)  //identifier return by setTimeout          
+  //计时器(ms)
+  window.setInterval(func, time)   //     return identifier
+  window.setTimeout(func, time)    //     return identifier
+  window.clearInterval(identifier) //identifier return by setInterval
+  window.clearTimeout(identifier)  //identifier return by setTimeout
 
 //window.history对象
   history.length
@@ -214,11 +214,11 @@
   location.replace()
 
 //window.navigator
- 
+
   navigator.appCodeName    //Returns the code name of the browser
   navigator.appName        //Returns the name of the browser
   navigator.appVersion     //Returns the version information of the browser
-  navigator.cookieEnabled  
+  navigator.cookieEnabled
   navigator.language       //Returns the language of the browser
   navigator.onLine         //Determines whether the browser is online
   navigator.platform       //Returns for which platform the browser is compiled
@@ -228,11 +228,11 @@
 //window.screen
   //There is no public standard that applies to the screen object, but all major browsers support it.
   screen.availHeight //Returns the height of the screen (excluding the Windows Taskbar)
-  screen.availWidth  
+  screen.availWidth
   screen.colorDepth  //Returns the bit depth of the color palette for displaying images
   screen.pixelDepth  //Returns the color resolution (in bits per pixel) of the screen, gt IE 9
   screen.height      //Returns the total height of the screen，DOM0非标准
-  screen.width  
+  screen.width
 
 //window.document
   document.adoptNode(node)   //Returns an adopted node from another document to this document
@@ -271,13 +271,13 @@
   document.write()            //Writes HTML expressions or JavaScript code to a document
   document.writeln()          //Same as write(), but adds a newline character after each statement
 
-  document.getElementById()           //IE7 and lower also return the element with name="test".    
-  document.getElementsByName()     
+  document.getElementById()           //IE7 and lower also return the element with name="test".
+  document.getElementsByName()
   document.getElementsByTagName()
   document.getElementsByClassName()   //IE9
   document.querySelector(selector)            //Returns the first match
   document.querySelectorAll(selector)         //Returns all
-  
+
   document.createAttribute()  //Creates an attribute node
   document.createComment()    //Creates a Comment node with the specified text
   document.createDocumentFragment()   //Creates an empty DocumentFragment node
@@ -289,7 +289,7 @@
 
 //样式
   //内联样式控制  r&w
-      Obj.style.property = stylevalue  
+      Obj.style.property = stylevalue
   //获取计算后样式 r only
   //IE || 非IE, IE9+
   CSSObj = Obj.currentStyle || window.getComputedStyle(Obj[, psudo])
@@ -321,7 +321,7 @@
   Ele.add/removeEventlistener(type, func, useCapture) //DOM2 添加回调
   Ele.attach/detachEvent('on'+type, func)             //IE8-  同上
   //获取事件对象
-  e = event || window.event 
+  e = event || window.event
   //获取事件目标
   e.type = e.type || e.srcElement
   //阻止事件默认行为：
@@ -347,31 +347,31 @@
 
 
 //事件属性
-  dataTransfer 
-  toElement 
-  fromElement 
-  y/x 
-  webkitMovementY 
-  webkitMovementX 
-  movementY/movementX 
-  detail 
-  view 
-  clipboardData 
-  path 
-  defaultPrevented 
-  timeStamp 
-  cancelable 
-  bubbles 
-  eventPhase 
-  initMouseEvent 
-  initUIEvent 
-  initEvent 
+  dataTransfer
+  toElement
+  fromElement
+  y/x
+  webkitMovementY
+  webkitMovementX
+  movementY/movementX
+  detail
+  view
+  clipboardData
+  path
+  defaultPrevented
+  timeStamp
+  cancelable
+  bubbles
+  eventPhase
+  initMouseEvent
+  initUIEvent
+  initEvent
   stopImmediatePropagation
 
 //节点属性
   在DOM中，每个节点都是一个对象。DOM 节点有三个重要的属性：前两者只读
-            nodeType    nodeName        nodeValue    
-  元素节点   1          标签名          null 
+            nodeType    nodeName        nodeValue
+  元素节点   1          标签名          null
   属性节点   2          属性名          属性值
   文本节点   3          #text           文本本身（包括单独的换行、tab、空格）
   注释节点   8          #comment        注释本身
@@ -409,7 +409,7 @@
   //jQuery
   node.after/before(newnode)
   node.append/prepend(newnode)
-  node.remove(newnode)       //FF23, Chrome29 
+  node.remove(newnode)       //FF23, Chrome29
   node.replace(newnode)
   //textNode
   appendData(String)
@@ -417,7 +417,7 @@
   wholeText                   //ReadOnly IE9+
   deleteData(start, end)
   insertData(index, String)
-  normalize()                //Merge adjacent text nodes into one node 
+  normalize()                //Merge adjacent text nodes into one node
   replaceData(start, end, String)
   splitText(index)            //Split into two, IE9 and lower is buggy
   substringData(start, end)
@@ -426,7 +426,7 @@
   x.isEqualNode(y)             //同上
   x.contains(y)
   node.ownerDocument
-  node.documentElement 
+  node.documentElement
   createDocumentFragment()
 //浏览器窗口可视区域大小
   获得浏览器窗口的尺寸（浏览器的视口，不包括工具栏和滚动条）的方法:
@@ -452,35 +452,35 @@
   //boolean
       spellcheck /isContentEditable /hidden /draggable /translate /contentEditable
 
-  align    
-  accessKey   
-  tabIndex -1 
+  align
+  accessKey
+  tabIndex -1
   webkitdropzone
-  shadowRoot null 
-  dataset DOMStringMap {}  
-                   
-  scrollHeight 5 
-  scrollWidth 640 
-  scrollTop 0 
-  scrollLeft 0 
-  clientHeight 5 
-  clientWidth 640 
-  clientTop 0 
-  clientLeft 0 
-  offsetParent <div id=​"controls">​…​</div>​ 
-  offsetHeight 5 
-  offsetWidth 640 
-  offsetTop 0 
-  offsetLeft 0 
+  shadowRoot null
+  dataset DOMStringMap {}
 
-  localName div 
-  tagName DIV 
-  prefix null 
+  scrollHeight 5
+  scrollWidth 640
+  scrollTop 0
+  scrollLeft 0
+  clientHeight 5
+  clientWidth 640
+  clientTop 0
+  clientLeft 0
+  offsetParent <div id=​"controls">​…​</div>​
+  offsetHeight 5
+  offsetWidth 640
+  offsetTop 0
+  offsetLeft 0
+
+  localName div
+  tagName DIV
+  prefix null
   namespaceURI http://www.w3.org/1999/xhtml
-  attributes NamedNodeMap {0: id, 1: class, length: 2, getNamedItem: function, setNamedItem: function, removeNamedItem: function, item: function…}0: id1: classlength: 2__proto__: NamedNodeMap 
-  textContent 
-  baseURI file:///C:/Users/YIZHI/Desktop/nima.html 
-  ownerDocument #document 
+  attributes NamedNodeMap {0: id, 1: class, length: 2, getNamedItem: function, setNamedItem: function, removeNamedItem: function, item: function…}0: id1: classlength: 2__proto__: NamedNodeMap
+  textContent
+  baseURI file:///C:/Users/YIZHI/Desktop/nima.html
+  ownerDocument #document
 
 ////JQuery
   $.fn
@@ -612,7 +612,7 @@
   append/prepend/before/after/appendTo/prependTo/insertBefore/insertAfter
   show/hide/toggle/fadeTo/slideDown/slideUp/slideToggle/fadeIn/fadeOut/fadeToggle
   val/attr/prop/data/removeAttr/removeProp/removeData
-  
+
   addClass/removeClass/toggleClass/hasClass
 
   blur/focus/focusin/focusout
@@ -680,11 +680,62 @@
   $(selector).droppable({drop: func})  //元素拖动
   $(selector).sortable({delay: s, opacity: })  //序列元素改变顺序<li><option>
   $(selector).accordion({options});  //面板折叠
-  $(selector).tabs({fx：{切换动画}，event: triggertype}); 
+  $(selector).tabs({fx：{切换动画}，event: triggertype});
   $(selector).menu({}); //根据ul li 多层嵌套创建菜单
 
+//knockout
+  var myViewModel = {
+    firstName: '',  //普通属性
+    lastName: ko.observable(defaultValue) //监听属性
+    family: ko.observableArray([]) //监听数组， 只监听数组增删，不监听其元素
+  }
+
+  myViewModel.firstName()       //getter
+  myViewModel.firstName('Lee')  //setter
+  myViewModel.family            //兼容原生数组api, 可用于多选checkbox
+
+  ko.applyBindings(myViewModel) //绑定this到myViewModel, 可用bind绑定到其他context
+
+  data-bind =
+    text: some words,
+    html: <p>kfjkjkd</p>,
+    css: {classname: Boolean},
+    attr: {attr: value, a: v}, //非合法属性名需加引号
+    style: {stylename: value, sl: v}, //camal-case,
+    value: inputValue,
+    visible enable disable: Boolean,
+
+    event: {type: func, t: fc}
+    click: func(e),
+    submit: func(form), //默认阻止默认行为，可返回true继续执行
+    {eventType}Bubble: Boolean, //是否冒泡
+
+    options: Array,
+    optionsText: '',
+    optionsCaption: '',
+    selectOptions: Array,
+    value: '',
+
+    template:
+      name:
+      data: {}
+      afterRender: fnc(elements)
+      templateOptions: {}
+      foreach: Array
+
+  //创建自定义绑定
+  ko.bindingHandlers.customBindingName = {
+    "init": function (
+      ele,                    //当前元素
+      valueAccessor,          //绑定值
+      allBindingAccessor,     //当前所有的绑定
+      viewModel               //applyBindings
+      ){},
+    "update": function(element, valueAccessor, allBindingAccessor, viewModel) {}
+  }
+
 //JSON
-  JSON 语法是 JavaScript 语法的子集。[1] 
+  JSON 语法是 JavaScript 语法的子集。
   JSON 语法规则
 
   JSON 语法是 JavaScript 对象表示语法的子集。
@@ -707,100 +758,100 @@
 
 
 //base64加密算法
-b64="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
-//将数据流以三个字节为单位，均分为四个六位比特，映射到b64， 以'='标志结束
-ABC ->           01000001      01000010      01000011
-    ->     010000      010100      001001      000011
-    -> b64(010000) b64(010100) b64(001001) b64(000011)
-    ->  N           R           J           D
+  b64="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+  //将数据流以三个字节为单位，均分为四个六位比特，映射到b64， 以'='标志结束
+  ABC ->           01000001      01000010      01000011
+      ->     010000      010100      001001      000011
+      -> b64(010000) b64(010100) b64(001001) b64(000011)
+      ->  N           R           J           D
 
 interface HTMLMediaElement : HTMLElement {
-// error state
-  MediaError? error  RO;
-      code; // enum(MEDIA_ERR_ABORTED = 1, MEDIA_ERR_NETWORK, MEDIA_ERR_DECODE, MEDIA_ERR_SRC_NOT_SUPPORTED)
-// network state
-  void load();
-  DOMString   src;
-  DOMString   currentSrc    RO;
-  DOMString   crossOrigin;
-  DOMString   preload;  //none|metadata|auto,""
-  TimeRanges  buffered      RO;
-  NetWorkState networkState RO;   //enum NetWorkState(NETWORK_EMPTY, NETWORK_IDLE, NETWORK_LOADING, NETWORK_NO_SOURCE)
-  CanPlayTypeEnum canPlayType(DOMString type);enum CanPlayTypeEnum { "", "maybe", "probably" };
-// ready state
-  readyState    RO;  //enum(HAVE_NOTHING, HAVE_METADATA, HAVE_CURRENT_DATA, HAVE_FUTURE_DATA, HAVE_ENOUGH_DATA)
-  bool seeking  RO;   //Returns true if the user agent is currently seeking.
-// playback state
-  double      duration   RO;  //获取视频时间长度（s）
-  double      currentTime;    //获取当前时间点（s）
-  double      playbackRate;   //播放速度（默认1）
-  double      defaultPlaybackRate;
-  Date        getStartDate();
-  TimeRanges  played     RO;
-  TimeRanges  seekable   RO;
-  bool paused   RO;
-  bool ended    RO;
-  bool autoplay;  //privi to preload
-  bool loop;
-  void play();
-  void pause();
-// media controller
-  DOMString         mediaGroup;
-  MediaController?  controller;
-// controls
-  bool    controls;
-  bool    muted;      //是否静音
-  bool    defaultMuted;
-  double  volume;     //音量(0-1) 
-// tracks
-  AudioTrackList  audioTracks RO;
-  VideoTrackList  videoTracks RO;
-  TextTrackList   textTracks  RO;
-  TextTrack       addTextTrack(TextTrackKind kind, optional DOMString label = "", optional DOMString language = "");
-// The media element attributes, 
-//   src, 
-//   crossorigin, 
-//   preload, 
-//   autoplay, 
-//   mediagroup, 
-//   loop, 
-//   muted, 
-//   controls, 
-// apply to all media elements.
-//event
-  onloadstart       
-  ondurationchange  //在 onloadstart 之后和 onloadedmetadata 之前立即引发。
-  onresize          //
-  onloadedmetadata  
-  onemptied         //在视频对象重置为其初始状态时引发。
-  onprogress        //指示正在下载媒体内容。
-  oncanplaythrough  //预计可完整连续播放。
-  onloadeddata      //数据已加载
-  onended           //播放结束
-  onplaying         //视频已开始播放
-  oncanplay         //视频可以播放，但是可能必须先缓冲才能播放
-  onseeking         //seeking属性为真（浏览器正在搜索位置）
-  onseeked          //seeking属性为假（位置已经找到）
-  onplay            //视频正在播放（使用play()函数触发）
-  onpause           //视频暂停（使用pause()函数触发）
-  ontimeupdate      //更新currentTime
-  onratechange      //改变播放速度
-  onvolumechange    //改变音量
+  // error state
+    MediaError? error  RO;
+        code; // enum(MEDIA_ERR_ABORTED = 1, MEDIA_ERR_NETWORK, MEDIA_ERR_DECODE, MEDIA_ERR_SRC_NOT_SUPPORTED)
+  // network state
+    void load();
+    DOMString   src;
+    DOMString   currentSrc    RO;
+    DOMString   crossOrigin;
+    DOMString   preload;  //none|metadata|auto,""
+    TimeRanges  buffered      RO;
+    NetWorkState networkState RO;   //enum NetWorkState(NETWORK_EMPTY, NETWORK_IDLE, NETWORK_LOADING, NETWORK_NO_SOURCE)
+    CanPlayTypeEnum canPlayType(DOMString type);enum CanPlayTypeEnum { "", "maybe", "probably" };
+  // ready state
+    readyState    RO;  //enum(HAVE_NOTHING, HAVE_METADATA, HAVE_CURRENT_DATA, HAVE_FUTURE_DATA, HAVE_ENOUGH_DATA)
+    bool seeking  RO;   //Returns true if the user agent is currently seeking.
+  // playback state
+    double      duration   RO;  //获取视频时间长度（s）
+    double      currentTime;    //获取当前时间点（s）
+    double      playbackRate;   //播放速度（默认1）
+    double      defaultPlaybackRate;
+    Date        getStartDate();
+    TimeRanges  played     RO;
+    TimeRanges  seekable   RO;
+    bool paused   RO;
+    bool ended    RO;
+    bool autoplay;  //privi to preload
+    bool loop;
+    void play();
+    void pause();
+  // media controller
+    DOMString         mediaGroup;
+    MediaController?  controller;
+  // controls
+    bool    controls;
+    bool    muted;      //是否静音
+    bool    defaultMuted;
+    double  volume;     //音量(0-1)
+  // tracks
+    AudioTrackList  audioTracks RO;
+    VideoTrackList  videoTracks RO;
+    TextTrackList   textTracks  RO;
+    TextTrack       addTextTrack(TextTrackKind kind, optional DOMString label = "", optional DOMString language = "");
+  // The media element attributes,
+  //   src,
+  //   crossorigin,
+  //   preload,
+  //   autoplay,
+  //   mediagroup,
+  //   loop,
+  //   muted,
+  //   controls,
+  // apply to all media elements.
+  //event
+    onloadstart
+    ondurationchange  //在 onloadstart 之后和 onloadedmetadata 之前立即引发。
+    onresize          //
+    onloadedmetadata
+    onemptied         //在视频对象重置为其初始状态时引发。
+    onprogress        //指示正在下载媒体内容。
+    oncanplaythrough  //预计可完整连续播放。
+    onloadeddata      //数据已加载
+    onended           //播放结束
+    onplaying         //视频已开始播放
+    oncanplay         //视频可以播放，但是可能必须先缓冲才能播放
+    onseeking         //seeking属性为真（浏览器正在搜索位置）
+    onseeked          //seeking属性为假（位置已经找到）
+    onplay            //视频正在播放（使用play()函数触发）
+    onpause           //视频暂停（使用pause()函数触发）
+    ontimeupdate      //更新currentTime
+    onratechange      //改变播放速度
+    onvolumechange    //改变音量
 
-  onstalled         //中断三秒以上时引发。这可以指示网络问题。
-  onwaiting         //下一帧不可用（可能需要缓冲）。
-  onsuspend         //暂停加载数据，等待中
-  onabort           //未完成非错误加载中止
-  onerror           //出现错误
+    onstalled         //中断三秒以上时引发。这可以指示网络问题。
+    onwaiting         //下一帧不可用（可能需要缓冲）。
+    onsuspend         //暂停加载数据，等待中
+    onabort           //未完成非错误加载中止
+    onerror           //出现错误
 };
 
 interface HTMLVideoElement : HTMLMediaElement {
-long      videoWidth  RO;
-long      videoHeight RO;
-long      width;
-long      height;
-DOMString poster;     //img url
-  //can not fire keyboardEvent: add tabindex=n to wrapper and listen the wrapper 
+  long      videoWidth  RO;
+  long      videoHeight RO;
+  long      width;
+  long      height;
+  DOMString poster;     //img url
+    //can not fire keyboardEvent: add tabindex=n to wrapper and listen the wrapper
 };
 //TimeRanges  from WHATWG Working Draft
 length  //
@@ -808,7 +859,7 @@ start(index)  //第index段的开始时间点
 end(index)    //第index段的结束时间点
 
 //Canvas
-canvas.toDataUTL(MIME) 
+canvas.toDataUTL(MIME)
 ctx = Canvas.getContext('2d')
 //绘制路径
 ctx.beginPath();        // 开始路径绘制
@@ -828,17 +879,17 @@ ctx.fillStyle = "#008600";      // 设置填充颜色
 ctx.fillText/strokeText("text", poxX, posY); //实心/空心
 //圆形和扇形
 ctx.arc(x, y, radius, startAngle, endAngle, anticlockwise);
-    ctx.beginPath(); 
-    ctx.arc(60, 60, 50, 0, Math.PI*2, true); 
+    ctx.beginPath();
+    ctx.arc(60, 60, 50, 0, Math.PI*2, true);
         //实心
-        ctx.fillStyle = "#000000"; 
+        ctx.fillStyle = "#000000";
         ctx.fill();
         //空心
-        ctx.lineWidth = 1.0; 
-        ctx.strokeStyle = "#000"; 
+        ctx.lineWidth = 1.0;
+        ctx.strokeStyle = "#000";
         ctx.stroke();
 //渐变色
-var myGradient = ctx.createLinearGradient(sX, sY, dX, dY); 
+var myGradient = ctx.createLinearGradient(sX, sY, dX, dY);
 myGradient.addColorStop(0, "#BABABA");
 myGradient.addColorStop(1, "#636363");
 ctx.fillStyle = myGradient;
@@ -848,10 +899,10 @@ ctx.shadowOffsetX = 10; // 设置水平位移
 ctx.shadowOffsetY = 10; // 设置垂直位移
 ctx.shadowBlur = 5; // 设置模糊度
 ctx.shadowColor = "rgba(0,0,0,0.5)"; // 设置阴影颜色
-ctx.fillStyle = "#CC0000"; 
+ctx.fillStyle = "#CC0000";
 ctx.fillRect(10,10,200,100);
 //图像
-ctx.drawImage(img, [iX, iY, iW, iH,] cX, cY, [cW, cH] ) 
+ctx.drawImage(img, [iX, iY, iW, iH,] cX, cY, [cW, cH] )
     //需图片加载完再画入
     //i* 图像剪切参数 c*画布画入参数
 ctx.createImageData(w, h)       //创建图像数据对象
@@ -861,99 +912,99 @@ ctx.putImageData(imgData, iX, iY, [cX, cY, cW, cH])
 
 interface CanvasRenderingContext2D {
 
-//ImageSource in (HTMLImageElement or HTMLCanvasElement or HTMLVideoElement)
-readonly HTMLCanvasElement canvas;// back-reference to the canvas
-  void save(); // push state on state stack
-  void restore(); // pop state stack and restore state
-// transformations (default transform is the identity matrix)
-  void scale(x, y);
-  void rotate(angle); //without unit
-  void translate(x, y);
-  void transform(a, b, c, d, e, f);
-  void setTransform(a, b, c, d, e, f);
-// colors and styles (see also the CanvasDrawingStyles interface)
-  (DOMString or CanvasGradient or CanvasPattern) strokeStyle = 'black';
-  (DOMString or CanvasGradient or CanvasPattern) fillStyle = 'black';
-  CanvasPattern createPattern(ImageSource, [TreatNullAs=Emptytring]DOMString repetition);
-  CanvasGradient createLinearGradient(x0, y0, x1, y1);
-  CanvasGradient createRadialGradient(x0, y0, r0, x1, y1, r1);
-    interface CanvasGradient {
-        // opaque object
-        void addColorStop(offset, DOMString color);
-    };
-// compositing合成
-  globalAlpha = 1.0;          //全局透明度
-  DOMString globalCompositeOperation = 'source-over';
-//START implements CanvasDrawingStyles
-  // line caps/joins
-  double      lineWidth = 1;
-  DOMString   lineCap; //线条的结束端点样式"butt", "round", "square" 
-  DOMString   lineJoin; //两条线相交时，所创建的拐角类型"miter", "round", "bevel"
-  double      miterLimit = 10;//最大斜接长度
-  // dashed lines
-  void setLineDash(sequence< double > segments); // default empty
-  sequence< double > getLineDash();
-  lineDashOffset; 
-  DOMString font;         // (default 10px sans-serif)
-  DOMString textAlign;    // "start", "end", "left", "right", "center" 
-  DOMString textBaseline; // "alphabetic", "top", "hanging", "middle", "ideographic", "bottom"
-//END implements CanvasDrawingStyles
-// shadows
-  shadowOffsetX = 0;
-  shadowOffsetY = 0;
-  shadowBlur    = 0;
-  DOMString shadowColor; // (default transparent black)
-// rects
-  void rect(x, y, w, h);// from interface CanvasPathMethods
-  void clearRect(x, y, w, h);
-  void fillRect(x, y, w, h);
-  void strokeRect(x, y, w, h);
-// path API
-  void beginPath();
-  void fill();    //填充路径
-  void stroke();  //画出路径
-  void drawFocusIfNeeded(Element element);
-  void clip();        //从原始画布剪切任意形状和尺寸的区域
-  boolean isPointInPath(x, y);
-    //START implements CanvasPathMethods
-    // shared path API methods
-    void closePath();  //创建从当前点回到起始点的路径
-    void moveTo(x, y); 
-    void lineTo(x, y);
-    void quadraticCurveTo(cpx, cpy, x, y);    //创建二次贝塞尔曲线
-    void bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y);//创建三次贝塞尔曲线
-    void arcTo(x1, y1, x2, y2, radius);             //创建两切线之间的弧/曲线
-    void arc(x, y, radius, startAngle, endAngle, anticlockwise = false); 
-    //END implements CanvasPathMethods
-// text
-  void fillText(DOMString text, x, y, [maxWidth]);
-  void strokeText(DOMString text, x, y, [maxWidth]);
-  TextMetrics measureText(DOMString text); //返回包含指定文本宽度的对象
-      interface TextMetrics {
-          readonly width;
+  //ImageSource in (HTMLImageElement or HTMLCanvasElement or HTMLVideoElement)
+  readonly HTMLCanvasElement canvas;// back-reference to the canvas
+    void save(); // push state on state stack
+    void restore(); // pop state stack and restore state
+  // transformations (default transform is the identity matrix)
+    void scale(x, y);
+    void rotate(angle); //without unit
+    void translate(x, y);
+    void transform(a, b, c, d, e, f);
+    void setTransform(a, b, c, d, e, f);
+  // colors and styles (see also the CanvasDrawingStyles interface)
+    (DOMString or CanvasGradient or CanvasPattern) strokeStyle = 'black';
+    (DOMString or CanvasGradient or CanvasPattern) fillStyle = 'black';
+    CanvasPattern createPattern(ImageSource, [TreatNullAs=Emptytring]DOMString repetition);
+    CanvasGradient createLinearGradient(x0, y0, x1, y1);
+    CanvasGradient createRadialGradient(x0, y0, r0, x1, y1, r1);
+      interface CanvasGradient {
+          // opaque object
+          void addColorStop(offset, DOMString color);
       };
-// hit regions
-  void addHitRegion(HitRegionOptions options);
-  void removeHitRegion(DOMString id);
-  void clearHitRegions();
-    dictionary HitRegionOptions {
-        // dictionary to allow expansion on Hit Regions in Canvas Context 2D Level 2
-        DOMString id = "";
-        // for control-backed regions:
-        Element? control = null;
-    };
-// pixel manipulation
-  //需图片加载完再画入,i* 图像剪切参数 c*画布画入参数
-  void drawImage(ImageSource, [iX, iY, iW, iH,] cX, cY, [cW, cH] ); 
-  void putImageData(ImageData, iX, iY, [cX, cY, cW, cH]);
-  ImageData createImageData(sw, sh);//创建一个新的知道长宽的空数据对象
-  ImageData createImageData(ImageData);//创建一个新的长宽相同的空数据对象
-  ImageData getImageData(sx, sy, sw, sh);
-    interface ImageData {
-      readonly unsigned long width;
-      readonly unsigned long height;
-      readonly Uint8ClampedArray data;
-    };
+  // compositing合成
+    globalAlpha = 1.0;          //全局透明度
+    DOMString globalCompositeOperation = 'source-over';
+  //START implements CanvasDrawingStyles
+    // line caps/joins
+    double      lineWidth = 1;
+    DOMString   lineCap; //线条的结束端点样式"butt", "round", "square"
+    DOMString   lineJoin; //两条线相交时，所创建的拐角类型"miter", "round", "bevel"
+    double      miterLimit = 10;//最大斜接长度
+    // dashed lines
+    void setLineDash(sequence< double > segments); // default empty
+    sequence< double > getLineDash();
+    lineDashOffset;
+    DOMString font;         // (default 10px sans-serif)
+    DOMString textAlign;    // "start", "end", "left", "right", "center"
+    DOMString textBaseline; // "alphabetic", "top", "hanging", "middle", "ideographic", "bottom"
+  //END implements CanvasDrawingStyles
+  // shadows
+    shadowOffsetX = 0;
+    shadowOffsetY = 0;
+    shadowBlur    = 0;
+    DOMString shadowColor; // (default transparent black)
+  // rects
+    void rect(x, y, w, h);// from interface CanvasPathMethods
+    void clearRect(x, y, w, h);
+    void fillRect(x, y, w, h);
+    void strokeRect(x, y, w, h);
+  // path API
+    void beginPath();
+    void fill();    //填充路径
+    void stroke();  //画出路径
+    void drawFocusIfNeeded(Element element);
+    void clip();        //从原始画布剪切任意形状和尺寸的区域
+    boolean isPointInPath(x, y);
+      //START implements CanvasPathMethods
+      // shared path API methods
+      void closePath();  //创建从当前点回到起始点的路径
+      void moveTo(x, y);
+      void lineTo(x, y);
+      void quadraticCurveTo(cpx, cpy, x, y);    //创建二次贝塞尔曲线
+      void bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y);//创建三次贝塞尔曲线
+      void arcTo(x1, y1, x2, y2, radius);             //创建两切线之间的弧/曲线
+      void arc(x, y, radius, startAngle, endAngle, anticlockwise = false);
+      //END implements CanvasPathMethods
+  // text
+    void fillText(DOMString text, x, y, [maxWidth]);
+    void strokeText(DOMString text, x, y, [maxWidth]);
+    TextMetrics measureText(DOMString text); //返回包含指定文本宽度的对象
+        interface TextMetrics {
+            readonly width;
+        };
+  // hit regions
+    void addHitRegion(HitRegionOptions options);
+    void removeHitRegion(DOMString id);
+    void clearHitRegions();
+      dictionary HitRegionOptions {
+          // dictionary to allow expansion on Hit Regions in Canvas Context 2D Level 2
+          DOMString id = "";
+          // for control-backed regions:
+          Element? control = null;
+      };
+  // pixel manipulation
+    //需图片加载完再画入,i* 图像剪切参数 c*画布画入参数
+    void drawImage(ImageSource, [iX, iY, iW, iH,] cX, cY, [cW, cH] );
+    void putImageData(ImageData, iX, iY, [cX, cY, cW, cH]);
+    ImageData createImageData(sw, sh);//创建一个新的知道长宽的空数据对象
+    ImageData createImageData(ImageData);//创建一个新的长宽相同的空数据对象
+    ImageData getImageData(sx, sy, sw, sh);
+      interface ImageData {
+        readonly unsigned long width;
+        readonly unsigned long height;
+        readonly Uint8ClampedArray data;
+      };
 };
 
 //call，apply，caller，callee，bind
@@ -969,12 +1020,12 @@ attribute使用getAttribute方法获取，property直接属性调用
 默认attribute一般有一个对应的property，自定义的没有
 
 //== and ===
-==: 
+==:
   不同类型比较可能产生强制类型转换，
   带来性能消耗，且转换复杂, 不建议使用
   ""           ==   "0"           // false
   0            ==   ""            // true 字符串与数字比较前会被强制转换为数字
-  0            ==   "0"           // true  
+  0            ==   "0"           // true
   false        ==   "false"       // false
   false        ==   "0"           // true
   false        ==   undefined     // false
