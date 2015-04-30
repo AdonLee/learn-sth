@@ -146,6 +146,20 @@
   Array.map(function(a){})
   Array.reduce(function(a,b){})
 
+//JSON，JS对象表示语法的子集，数据在由逗号分隔的键值对中 （IE8+）
+
+  JSON.parse(String, filter) //filter递归处理解析出的对象成员，返回null，undefined则删除成员
+  JSON.stringify(Json) //https://msdn.microsoft.com/zh-cn/library/ie/cc836459(v=vs.94).aspx
+
+  var json={              //1、花括号保存对象
+    name: 'lilei',        //字符串（在引号中）
+    age: 12,              //数字（整数或浮点数）
+    gender: true,         //逻辑值（true 或 false）
+    grade:
+      ['seven','hghghd','jhdkal'] //2、方括号保存数组
+  }
+  document.write(json.grade[1]);
+
 //window对象
   window.closed           //Returns a Boolean value indicating whether a window has been closed or not
   window.defaultStatus    //Sets or returns the default text in the statusbar of a window
@@ -687,12 +701,14 @@
   var myViewModel = {
     firstName: '',  //普通属性
     lastName: ko.observable(defaultValue) //监听属性
-    family: ko.observableArray([]) //监听数组， 只监听数组增删，不监听其元素
+    family: ko.observableArray([defaultArray]) //监听数组， 只监听数组增删，不监听其元素
+    fullName = ko.dependentObservable(function(){}) //依赖监控绑定， 函数内部使用到其他视模变量
   }
 
   myViewModel.firstName()       //getter
   myViewModel.firstName('Lee')  //setter
-  myViewModel.family            //兼容原生数组api, 可用于多选checkbox
+  myViewModel.family([])            //兼容原生数组api, 可用于多选checkbox
+
 
   ko.applyBindings(myViewModel) //绑定this到myViewModel, 可用bind绑定到其他context
 
@@ -723,38 +739,167 @@
       templateOptions: {}
       foreach: Array
 
+
   //创建自定义绑定
   ko.bindingHandlers.customBindingName = {
     "init": function (
       ele,                    //当前元素
       valueAccessor,          //绑定值
       allBindingAccessor,     //当前所有的绑定
-      viewModel               //applyBindings
+      viewModel               //applyBindings绑定的对象
       ){},
     "update": function(element, valueAccessor, allBindingAccessor, viewModel) {}
   }
+  ko.toJS — 克隆你的view model对象，并且替换所有的observable 对象为当前的值，这样你可以得到一个干净的和Knockout无关的数据copy。
+  ko.toJSON — 将view model对象转化成JSON字符串。原理就是：先调在view model上调用ko.toJS，然后调用浏览器原生的JSON 序列化器得到结果。ie67不支持，需引用json2.js类库。
 
-//JSON
-  JSON 语法是 JavaScript 语法的子集。
-  JSON 语法规则
 
-  JSON 语法是 JavaScript 对象表示语法的子集。
-  数据在由逗号分隔的名称/值对中
-  花括号保存对象
-  方括号保存数组
+//phonejs
+  data-options
+    dxLayout: { //布局指令 声明这是一个布局
+      name: String
+    }
+    dxContentPlaceholder : { //layout中的占位指令
+      name: 'content',
+      transition: 'slide'
+    }
+    dataCommandsContainer{
+      id: commandsId //引用Appnamespace.app.commandMapping[commandId]
+    }
 
-  JSON 值可以是：
-  数字（整数或浮点数）
-  字符串（在双引号中）
-  逻辑值（true 或 false）
-  var json={
-          name: 'lilei',
-          age: 12,
-          gender: 'boy',
-          grade: ['seven','hghghd','jhdkal']
+    dxView: { //视图指令 声明这是一个视图
+      name: String,
+      title: String,
+      platform: "ios", //指定平台
+      //event handler
+      viewRendered: viewRendered,
+      viewShowing: viewShowing,
+      viewShown: viewShown,
+      viewHidden: viewHidden
+    }
+    dxContent: { //view指令，指定layout替换位置,name=content的dxContentPlaceholder
+      targetPlaceholder: 'content'
+    }
+    dxViewPlaceholder: { //在视图中引入另一个视图
+      viewName: 'mall_header'
+    }
+
+  data-bind=
+    dxTextBox: { //input:text
+      value: name,
+      valueChangeEvent: 'keyup'
+    }
+    dxButton: { //input:button
+      text: 'Say Hello',
+      clickAction: sayHello
+    }
+    dxToolbar: {
+      items: [ {
+        text: 'My First Application',
+        align: 'center'
+      } ]
+    }
+    dxCommand: { //toolbar button
+      id: 'create',
+      title: 'Create',
+      action: Function
+    }
+
+  //初始化应用
+  window.AppNamespace = {};
+  $(function () {
+    AppNamespace.app = new DevExpress.framework.html.HtmlApplication({
+      //指定命名空间
+      namespace: AppNamespace,
+      //指定布局
+      //指定为框架预定义布局
+      layoutSet: DevExpress.framework.html.layoutSets['navbar'], //Array type
+      //指定为自定义布局
+      layoutSet: [{
+        platform: "android",
+        controller: new DevExpress.framework.html.NavBarController,
+      },{}]
+      //指定navbar布局的导航键
+      navigation: [
+        {title: "Home",onExecute: "#home",icon: "home"}, {}
+      ],
+      commandMapping: {
+        'ios-header-toolbar': {
+          commands:[{
+            id: String,
+            location: String
+            },{}
+          ]
+        },
+        "generic-header-toolbar": {}
       }
-  document.write(json.grade[1]);
+    });
 
+    //注册路由, 第一个指定视图，其他为参数
+    AppNamespace.app.router.register(":view", { view: "home"}); //默认视图
+    AppNamespace.app.router.register(":view/:name", { view: "home", name: '' });
+    //导航至默认路由
+    AppNamespace.app.navigate();
+    //导航至home视图并传入参数name=yizhi
+    AppNamespace.app.navigate("home/yizhi");
+
+    //每个视图在应用根命名空间一个对应的视图模型viewModel
+    AppNamespace.home = function(params){
+      var viewModel = {
+        name: params.name, //通过params可获取传入的参数
+
+      };
+      return viewModel;
+    }
+  });
+
+//angular
+  <div ng-app="myapp">                    //$rootScope 根作用域
+    <div ng-controller="controllerA">     //$scope控制器作用域, 继承于根作用域
+      <div>
+        <input ng-model="property" type="text"/>  //双向绑定$scope.property， 用于可编辑对象
+        <span ng-bind="property"></span>          //单向绑定$scope.property
+        <span>{{property}}</span>                 //同上
+      </div>
+    </div>
+    <div ng-controller="controllerB">
+    </div>
+  </div>
+
+  //创建一个app，ng-app属性指定应用入口
+  var myapp = angular.module("myapp", [])
+
+  //创建控制器，由ng-controller指定,一个模块可有多个控制器
+  myapp.controller('controllerA',function($scope, $rootScope) { //$scope, $rootScope 作为依赖注入
+
+      //创建控制器变量属性，由$scope限定范围
+      $scope.name = "licedong";
+
+      //绑定函数
+      $scope.sayHello = function() {
+          alert('my name is '+ $scope.name)
+      };
+  })
+  myapp.controller('controllerB');
+
+  //创建一条指令
+  myapp.directive("hello", function (dateFilter) {
+
+    //指令定义对象
+    var definition = {
+      restrict: 'E', //[E元素 A属性 C样式类 M注释], 自定指令识别位置，可同时指定多个
+      template: '<div><span>kdkdk</span></div>', //指定替换的模板
+      replace: Boolean,     //是否替换掉指令标签
+      transclude: Boolean,  //是否保留指令标签内原有内容
+      link: function(scope, element, attrs) {}  
+      compile: function(scope, element, attrs, accordionController) {}
+      scope:
+    }
+
+    return definition;
+  })
+  //directive
+    
 
 
 //base64加密算法
