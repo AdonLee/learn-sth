@@ -860,7 +860,18 @@
         <input ng-model="property" type="text"/>  //双向绑定$scope.property， 用于可编辑对象
         <span ng-bind="property"></span>          //单向绑定$scope.property
         <span>{{property}}</span>                 //同上
+        <span>{{property | filter }}</span>       //过滤器
+        //其他预定义指令
+        <button ng-click="myfunc()"></button>       //绑定点击事件
+        <div ng-class="active: active"></div>     //toggle('active', active)
+        <ul ng-repeat="item in list">
+          <li>{{item}}</li>
+          <li ng-bind="item"></li>
+        </ul>
+        <div ng-if="">showsomethinghere</div>     //
+        <form ng-submit="doSubmit()"></form>
       </div>
+      <hello name='lecedong' gender='mail'></hello>
     </div>
     <div ng-controller="controllerB">
     </div>
@@ -872,10 +883,10 @@
   //创建控制器，由ng-controller指定,一个模块可有多个控制器
   myapp.controller('controllerA',function($scope, $rootScope) { //$scope, $rootScope 作为依赖注入
 
-      //创建控制器变量属性，由$scope限定范围
+      //注册属性，由$scope限定范围
       $scope.name = "licedong";
 
-      //绑定函数
+      //注册函数
       $scope.sayHello = function() {
           alert('my name is '+ $scope.name)
       };
@@ -883,23 +894,42 @@
   myapp.controller('controllerB');
 
   //创建一条指令
-  myapp.directive("hello", function (dateFilter) {
+  myapp.directive("hello", function (dateFilter) { //依赖作为参数传入
 
     //指令定义对象
     var definition = {
       restrict: 'E', //[E元素 A属性 C样式类 M注释], 自定指令识别位置，可同时指定多个
-      template: '<div><span>kdkdk</span></div>', //指定替换的模板
-      replace: Boolean,     //是否替换掉指令标签
-      transclude: Boolean,  //是否保留指令标签内原有内容
-      link: function(scope, element, attrs) {}  
-      compile: function(scope, element, attrs, accordionController) {}
-      scope:
+      template: '<div><span>kdkdk</span><span ng-transclude></span></div>', //指定替换的模板
+      templateUrl: 'template.html', //指定替换的模板文件
+      replace: Boolean,       //是否替换掉指令标签
+      transclude: Boolean,    //是否保留指令标签内原有内容
+      require: '^otherdirec',  //绑定otherdirec指令的控制器 ^?父元素:当前元素上查找
+      controller: function($scope) {}, //定义指令独立控制器
+      link: function(
+        scope,      //Angular的scope对象
+        element,    //指令匹配的jqLite封装的元素
+        attrs,      //规范化后属性名字和相应值的对象
+        cotroller   //绑定otherdirec指令的控制器的实例
+      ) {},
+      compile: function(
+        scope, 
+        element, 
+        attrs, 
+        accordionController
+      ) {},
+      scope: { //指定scope会创建独立作用域，隔离模块上下文
+        sex: "=gender", //绑定指令元素上的gender属性
+        name: "=",      //绑定指令元素上的name属, 快捷方式
+        sayHello: '&sayHello', //& 绑定了一个函数到独立作用域， 允许独立作用域调用它，同时保留了原来函数的作用域
+      }
     }
 
     return definition;
   })
-  //directive
-    
+
+  myapp.filter('filter', function(data) {
+
+  })    
 
 
 //base64加密算法

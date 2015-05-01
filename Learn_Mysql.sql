@@ -199,40 +199,24 @@
     SET NAMES encoding
 
 六、连接类型
+  #join 水平连接
   {[INNER|CROSS] | {LEFT|RIGHT}[OUTER]} JOIN
-  INNER JOIN = CROSS JOIN = JOIN  #内连接，显示符合连接条件的记录
-  LEFT [OUTER] JOIN #左外连接
-  RIGHT [OUTER] JOIN  #右外连接
-例子：
-EmployeeTB（员工信息表）： 
-  employeeid employeename deptid 
-  0001      张三      01 
-  0002      李四      01 
-  0003      王五      02 
-  0004      赵六      02 
-  0005      郑七      NULL 
 
-DeptTB（部门信息表） 
-  deptid  deptname 
-  01    技术部 
-  02    市场部 
-  03    工程部 
-
-  1内连接
+  1内连接 INNER JOIN
     仅列出符合连接条件的列
-  2左外联结 
-    列出所有左表的项,如果没有匹配的项目,那么右表中的字段值为NULL
-    SELECT e.employeeid,e.employeename,d.deptname FROM EmployeeTB AS e LEFT OUTER JOIN DeptTB AS d ON e.deptid=d.deptid 
-    检索的结果都是： 
-      employeeid employeename deptname 
-      0001      张三    技术部 
-      0002      李四    技术部 
-      0003      王五    市场部 
-      0004      赵六    市场部 
-      0005      郑七     NULL 
 
-  3右外连接
-    列出匹配右表字段的左表项，
+  2左外联结 LEFT JOIN
+    列出所有左表的项,如果没有匹配的项目,那么结果集中右表字段值为NULL
+
+  3右外连接 RIGHT JOIN
+    与左外连接相反
+
+  #union 垂直连接
+  SELECT ... UNION (ALL) SELECT ...
+  #用于把来自多个 SELECT 语句的结果垂直组合到一个结果集合中，SELECT结果字段需相同
+  UNION 去重
+  UNION ALL 保留所有数据集
+  
   
 七、元数据：
   SELECT VERSION()
