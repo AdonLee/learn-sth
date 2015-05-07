@@ -3,8 +3,9 @@
       Undefined       //唯一值undefined，声明但未初始化 或不存在的变量
       Null            //对象
       Boolean         //false | true
-      Number
+      Number          //浮点数
       String
+
   //引用类型， 引用值大小会改变，从栈中分配
   //检测对象类型
 
@@ -16,7 +17,7 @@
     true                Boolean    boolean
     undefined           Undefined  undefined
 
-    null                Null       object
+    null                Null       object  //历史兼容
     new String("foo")   String     object
     new Number(1.2)     Number     object
     new Boolean(true)   Boolean    object
@@ -32,6 +33,7 @@
     Class = Object.prototype.toString.call(Value).slice(8, -1)
     Type  = typeof Value
     // instanceof
+
 //全局方法与属性
   String()              //相对toString(),对null和undefined值强制类型转换可以生成字符串而不引发错误
   Boolean()             //！！
@@ -77,13 +79,13 @@
       }
 
 //Object
-  constructor               //对创建对象的函数的引用（指针）。对于 Object 对象，该指针指向原始的 Object() 函数。
-  Prototype                 //对该对象的对象原型的引用。对于所有的对象，它默认返回 Object 对象的一个实例。
-  hasOwnProperty(property) //判断对象是否有某个特定的属性。
-  IsPrototypeOf(object)   //判断该对象是否为另一个对象的原型。
-  PropertyIsEnumerable   //判断给定的属性是否可以用 for...in 语句进行枚举。
-  ToString()          //返回对象的原始字符串表示。对于 Object 对象，ECMA-262 没有定义这个值，所以不同的 ECMAScript 实现具有不同的值。
-  ValueOf()           //返回最适合该对象的原始值。对于许多对象，该方法返回的值都与 ToString() 的返回值相同。
+  Object.constructor               //对创建对象的函数的引用（指针）。对于 Object 对象，该指针指向原始的 Object() 函数。
+  Object.Prototype                 //对该对象的对象原型的引用。对于所有的对象，它默认返回 Object 对象的一个实例。
+  Object.hasOwnProperty(property) //判断对象是否有某个特定的属性。
+  Object.IsPrototypeOf(object)   //判断该对象是否为另一个对象的原型。
+  Object.PropertyIsEnumerable   //判断给定的属性是否可以用 for...in 语句进行枚举。
+  Object.ToString()          //返回对象的原始字符串表示。对于 Object 对象，ECMA-262 没有定义这个值，所以不同的 ECMAScript 实现具有不同的值。
+  Object.ValueOf()           //返回最适合该对象的原始值。对于许多对象，该方法返回的值都与 ToString() 的返回值相同。
 
 //操作符之间的优先级（高到低）:
   算术操作符 → 比较操作符 → 逻辑操作符 → "="赋值符号
@@ -114,7 +116,7 @@
   obj.toString()
 
 //数字转换
-  Number.toString(n)  //n进制转换，默认十进制
+  Number.toString(n=10)  //n进制转换
   Number.toFixed(n)   //四舍五入到小数点n（0<n<20）位
   Number.toString     //把数字转换为字符串，使用指定的基数。
   Number.toBitString     //把数字转换为二进制字符串
@@ -151,7 +153,7 @@
   JSON.parse(String, filter) //filter递归处理解析出的对象成员，返回null，undefined则删除成员
   JSON.stringify(Json) //https://msdn.microsoft.com/zh-cn/library/ie/cc836459(v=vs.94).aspx
 
-  var json={              //1、花括号保存对象
+  var json = {              //1、花括号保存对象
     name: 'lilei',        //字符串（在引号中）
     age: 12,              //数字（整数或浮点数）
     gender: true,         //逻辑值（true 或 false）
@@ -196,7 +198,7 @@
   //消息对话框
   window.alert('message');
   window.confirm('message');          //return boolean
-  window.prompt('message', input);    //return input
+  window.prompt('message');    //return input String
 
   //打开新窗口
   window.open(<URL>, _top|_blank|_selft, <参数字符串>)
@@ -415,16 +417,18 @@
 //节点操作
   newnode= document.creatElement(tabName)
   newnode= document.creatTextNode(data)
-  newnode= element.cloneNode(recur)           //recur？clone all tree：enpty node
-  parentnode.appendChild(newnode)             //last child
-  parentnode.insertBefore(newnode, [node])    //before node or last child
-  parentnode.removeChild(node)                //node  will be the return
-  parentnode.replaceChild(newnode, oldnode)
+  newnode= element.cloneNode(recur)             //recur？clone all tree：enpty node
+  parent.appendChild(newnode)                   //last child
+  parent.insertBefore(newnode, [node=last])     //before node or last child
+  parent.removeChild(node)                      //node  will be the return
+  parent.replaceChild(newnode, oldnode)
+
   //jQuery
   node.after/before(newnode)
   node.append/prepend(newnode)
   node.remove(newnode)       //FF23, Chrome29
   node.replace(newnode)
+
   //textNode
   appendData(String)
   data                       //equal to innerText
@@ -435,6 +439,7 @@
   replaceData(start, end, String)
   splitText(index)            //Split into two, IE9 and lower is buggy
   substringData(start, end)
+
   //其他
   x.compareDocumentPosition(y) //IE9+
   x.isEqualNode(y)             //同上
@@ -443,17 +448,17 @@
   node.documentElement
   createDocumentFragment()
 //浏览器窗口可视区域大小
-  获得浏览器窗口的尺寸（浏览器的视口，不包括工具栏和滚动条）的方法:
-  一、对于IE9+、Chrome、Firefox、Opera 以及 Safari：
-      window.innerHeight - 浏览器窗口的内部高度
-      window.innerWidth - 浏览器窗口的内部宽度
-  二、对于 IE8-：
-      document.documentElement.clientHeight表示HTML文档所在窗口的当前高度。
-      document.documentElement.clientWidth表示HTML文档所在窗口的当前宽度。
-  或者Document对象的body属性对应HTML文档的<body>标签
+  //获得浏览器窗口的尺寸（浏览器的视口，不包括工具栏和滚动条）的方法:
+  //一、对于IE9+、Chrome、Firefox、Opera 以及 Safari：
+      window.innerHeight //浏览器窗口的内部高度
+      window.innerWidth //浏览器窗口的内部宽度
+  //二、对于 IE8-：
+      document.documentElement.clientHeight //表示HTML文档所在窗口的当前高度。
+      document.documentElement.clientWidth //表示HTML文档所在窗口的当前宽度。
+  //或者Document对象的body属性对应HTML文档的<body>标签
       document.body.clientHeight
       document.body.clientWidth
-  在不同浏览器都实用的 JavaScript 方案：
+  //在不同浏览器都实用的 JavaScript 方案：
       var w= document.documentElement.clientWidth
             || document.body.clientWidth;
       var h= document.documentElement.clientHeight
@@ -473,19 +478,10 @@
   shadowRoot null
   dataset DOMStringMap {}
 
-  scrollHeight 5
-  scrollWidth 640
-  scrollTop 0
-  scrollLeft 0
-  clientHeight 5
-  clientWidth 640
-  clientTop 0
-  clientLeft 0
+  scrollHeight/Width/Top/Left => String
+  clientHeight/Width/Top/Left => String
+  offsetHeight/Width/Top/Left => String
   offsetParent <div id=​"controls">​…​</div>​
-  offsetHeight 5
-  offsetWidth 640
-  offsetTop 0
-  offsetLeft 0
 
   localName div
   tagName DIV
@@ -497,8 +493,8 @@
   ownerDocument #document
 
 ////JQuery
-  $.fn
-  $.extend
+  $.fn  //=>$.prototype
+  $.extend(obj1, obj2) //
   $.expando
   $.isReady
   $.error
