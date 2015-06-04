@@ -856,7 +856,7 @@
         <input ng-model="property" type="text"/>  //双向绑定$scope.property， 用于可编辑对象
         <span ng-bind="property"></span>          //单向绑定$scope.property
         <span>{{property}}</span>                 //同上
-        <span>{{property | filter }}</span>       //过滤器
+        <span>{{property | filter }}</span>       //使用过滤器
         //其他预定义指令
         <button ng-click="myfunc()"></button>       //绑定点击事件
         <div ng-class="active: active"></div>     //toggle('active', active)
@@ -894,7 +894,7 @@
 
     //指令定义对象
     var definition = {
-      restrict: 'E', //[E元素 A属性 C样式类 M注释], 自定指令识别位置，可同时指定多个
+      restrict: 'E',          //[E元素 A属性 C样式类 M注释], 自定指令识别位置，可同时指定多个
       template: '<div><span>kdkdk</span><span ng-transclude></span></div>', //指定替换的模板
       templateUrl: 'template.html', //指定替换的模板文件
       replace: Boolean,       //是否替换掉指令标签
@@ -922,9 +922,13 @@
 
     return definition;
   })
-
-  myapp.filter('filter', function(data) {
-
+  
+  //过滤器
+  myapp.filter('filter', [a, b, c...] function(a, b, c...) {
+    return function(data) {
+      //handle data
+      return data
+    }
   })    
 
 
