@@ -1,45 +1,44 @@
 /*selector*/
 /*CSS 1*/
-  E
+  E                       
   Ea Ed
-  E.class
-  E#id
-  :link
-  :visited
-  :active           /*IE7 IE6 only <a>*/
+  .class                      /*Only one class can be specified per selector, work at IE6 and lower*/
+  #id
+  /*pseudo-classes*/
+  :(link|visited|active)     /* IE7 IE6 only <a>, in CSS1*/
   :first-line/first-letter  
-  multiple classes  /*IE6 and lower act p.test.small as p.small.*/
-  !important        /*IE7*/
+  multiple classes           /*IE6 and lower act p.test.small as p.small.*/
+  !important                 /*IE7*/
 /*CSS 2.1*/
   *
   E:hover           /*IE6  only <a> */  
   E:first-child     /*IE7*/
-  Ep>Ec             /*IE7*/
-  E + F             /*IE7*/
+  Ep > Ec           /*IE7 directly siblings*/
+  E  + F            /*IE7 next element*/
   E[attr]           /*IE7*/
-  E[attr= value]    /*IE7*/
-  E[attr~= word]    /*IE7  word in attr.split(/\s/)*/
+  E[attr = "value"] /*IE7*/
+  E[attr~= "word"]  /*IE7  word in attr.split(/\s/)*/
+  E[attr|= "word"]  /*IE7  word in attr.split(/[\s\-]/)*/
   E:focus           /*IE8S*/
   E:before/after    /*IE8*/
 /*CSS3*/
   E ~ E             /*IE7*/
-  E[attr^= value]   /*IE7*/
-  E[attr$= value]   /*IE7*/
-  E[attr*= value]   /*IE7*/
-  E[attr|= word]    /*IE7  word in attr.split(/[\s\-]/)*/
+  E[attr^= "value"]   /*IE7*/
+  E[attr$= "value"]   /*IE7*/
+  E[attr*= "value"]   /*IE7*/
   /*伪类选择器 /*IE9*/
     :root           /*等同于html*/
     ::selection     /*定义选中文本样式*/
-    E::before/after 
+    E::before/after /*IE9*/
     E:target        /*select Element'anchor*/
     E:not(selector)   /*否定*/
     E:empty  空
     E:only-child          /*select Element with only one Children*/
-    E:last-child/first-child
+    E:(last|first)-child
     E:nth-child/nth-last-child(kn+b)      
     E:only-of-type        /*select Element type-only in parentEle*/
-    E:first-of-type/last-of-type        
-    E:nth-of-type/nth-last-of-type(kn+b)  
+    E:(first|last)-of-type        
+    E:nth-(last-)of-type(kn+b)  
     E:enabled/disabled/checked/read-only/read-write(/default/indeterminate)
 
 
@@ -357,19 +356,19 @@ border content+padding background-image background-color margin
 
   /*4.变量*/
   LESS: @variable: value   /*@color：#4D6535*/
-  SaSS: $variable: value   /*$color：#4D6535*/
+  SaSS: $variable: value [!default]   /*$color：#4D6535*/
 
   /*5.mixin混合 ,类似函数*/
-  LESS:
-    .mixin-name( @var: defaultVal ){  
-      /*less code*/
-    }
-    .class{
-      color: blue;
-      .mixin-name
-    }
+  LESS:                                              
+    .mixin-name( @var: defaultVal ){       // parameter is seperated by ';'          
+      /*less code*/                                  
+    }                                                
+    .class{                                          
+      color: blue;                                   
+      .mixin-name                                    
+    }                                                
   SaSS:
-    @mixin mixin-name {
+    @mixin mixin-name() {                  // parameter is seperated by ','
       /*sass code*/
     }
     .class{
@@ -524,14 +523,14 @@ border content+padding background-image background-color margin
   .btn-block
   .btn-[xs|sm|lg]  /*as same as .btn in .btn-group-** */
   .btn-group-[xs|sm|lg]
+
 .alert 
   .alert-success
   .alert-info
   .alert-warning
   .alert-danger
+
 ul.nav [nav-pills | nav-tabs]
-
-
 
 table.table [.table-bordered | 
       .table-condensed
@@ -557,25 +556,15 @@ form.form-horizontal.form-inline
     .form-control [-static|break]
 
 .progress
-  .progress-bar [.progress-bar-success |
-          .progress-bar-info
-          .progress-bar-wraning
-          .progress-bar-danger
-          .progress-bar-striped
-  ]:aria-valuenow:aria-valuemin:aria-valuemax
+  .progress-bar.progress-bar-[success|info|wraning|danger|striped]:aria-valuenow:aria-valuemin:aria-valuemax
           
 ul.list-group
   li.list-group-item[.active]
 
-.panel [.panel-default |
-    .panel-primary
-    .panel-success
-    .panel-info
-    .panel-warning
-    .panel-danger
-    ]
+.panel.panel-[default|primary|success|info|warning|danger]
   .panel-heading
   .panel-body
+  .panel-footer
 
 .carousel    /*图片展示*/
   .carousel-indicators

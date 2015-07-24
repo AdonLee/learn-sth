@@ -618,7 +618,7 @@
   height/innerHeight/outerHeight/width/innerWidth/outerWidth/scrollLeft/scrollTop
   position/offset //relative/absolute(top, left)
   css/text/html
-  remove/clone/empty/replaceWith//删除/克隆/清空/替换
+  remove/clone/empty/replaceWith/replaceAll //删除/克隆/清空/替换为/替换掉
   append/prepend/before/after/appendTo/prependTo/insertBefore/insertAfter
   show/hide/toggle/fadeTo/slideDown/slideUp/slideToggle/fadeIn/fadeOut/fadeToggle
   val/attr/prop/data/removeAttr/removeProp/removeData
@@ -636,23 +636,14 @@
   contents
   queue/dequeue/clearQueue
   promise
-  on
-  one
-  off
-  trigger
+  on/one/off/trigger /绑定/单次绑定/解绑/触发
   triggerHandler
   detach
   domManip
-  replaceAll
-  animate
-  stop
-  finish
-  delay
+  delay/animate/stop/finish //延迟/开始/暂停/结束
 
-  bind
-  unbind
-  delegate
-  undelegate
+  bind/unbind
+  delegate/undelegate
   ajaxStart
   ajaxStop
   ajaxComplete
@@ -1211,6 +1202,16 @@ attribute使用getAttribute方法获取，property直接属性调用
   2.。。。。
 ===:严格等于操作符，不进行强制类型转换
   强烈推荐使用严格等于操作符。如果类型需要转换，应该在比较之前显式的转换， 而不是使用语言本身复杂的强制转换规则。
+
+// defer and async
+defer:
+  IE < 10 无法保证执行顺序，先下载完先执行，如果有依赖就悲剧了
+
+async:
+  IE < 10 不支持
+
+
+
 
 
 
