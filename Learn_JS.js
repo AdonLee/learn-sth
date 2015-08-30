@@ -110,8 +110,7 @@
   String.slice(startPos, endPos=END)    //接受负数，而substring则视为0
   String.substring(startPos, endPos=END)
   String.substr(startPos, length)
-  String.toUpper/LowerCase()
-  String.toLocaleUpper/LowerCase()
+  String.to[Locale]Upper/LowerCase()
   String.localeCompare(str)  //>str?正数：负数，相同返回0
   obj.toString()
 
@@ -136,10 +135,10 @@
   []                      //返回一个空数组， 推荐方式(短小简洁，可读性)
   Array.length            //可写,小于原值会发生截取
   Array.concat(arr1..n)
-  Array.join(seperator = ',') //
+  Array.join(seperator || ',') //
   Array.reverse()
-  Array.slice(starPos, endPos = END)
-  Array.sort(sortFunc = Unicode order) // sortFunc(a, b) > 0 ? a<=>b:;
+  Array.slice(starPos, endPos || END)
+  Array.sort(sortFunc || Unicode order) // sortFunc(a, b) > 0 ? a<=>b:;
   Array.shift()       //delete and return the first
   Array.unshift(eles) //prepend new and return the length
   Array.pop()         //delete and return the last
@@ -166,20 +165,15 @@
   window.closed           //Returns a Boolean value indicating whether a window has been closed or not
   window.defaultStatus    //Sets or returns the default text in the statusbar of a window
   window.frames           //Returns an array of all the frames (including iframes) in the current window
-  window.innerHeight      //Returns the inner height of a window's content area
-  window.innerWidth       //Returns the inner width of a window's content area
+  window.innerHeight/Width       //Returns the inner width of a window's content area
   window.length           //Returns the number of frames (including iframes) in a window
   window.name             //Sets or returns the name of a window
   window.opener           //Returns a reference to the window that created the window
-  window.outerHeight      //Returns the outer height of a window, including toolbars/scrollbars
-  window.outerWidth       //Returns the outer width of a window, including toolbars/scrollbars
-  window.pageXOffset      //Returns the pixels the current document has been scrolled (horizontally) from the upper left corner of the window
-  window.pageYOffset      //Returns the pixels the current document has been scrolled (vertically) from the upper left corner of the window
+  window.outerHeight/Width       //Returns the outer width of a window, including toolbars/scrollbars
+  window.pageX/YOffset      //Returns the pixels the current document has been scrolled (vertically) from the upper left corner of the window
   window.parent           //Returns the parent window of the current window
-  window.screenLeft       //Returns the x coordinate of the window relative to the screen
-  window.screenTop        //Returns the y coordinate of the window relative to the screen
-  window.screenX          //Returns the x coordinate of the window relative to the screen
-  window.screenY          //Returns the y coordinate of the window relative to the screen
+  window.screenLeft/Top        //Returns the y coordinate of the window relative to the screen
+  window.screenX/Y          //Returns the y coordinate of the window relative to the screen
   window.self             //Returns the current window
   window.status           //Sets or returns the text in the statusbar of a window
   window.top              //Returns the topmost browser window
@@ -241,12 +235,10 @@
 
 //window.screen
   //There is no public standard that applies to the screen object, but all major browsers support it.
-  screen.availHeight //Returns the height of the screen (excluding the Windows Taskbar)
-  screen.availWidth
+  screen.availWidth/Height //Returns the height of the screen (excluding the Windows Taskbar)
   screen.colorDepth  //Returns the bit depth of the color palette for displaying images
   screen.pixelDepth  //Returns the color resolution (in bits per pixel) of the screen, gt IE 9
-  screen.height      //Returns the total height of the screen，DOM0非标准
-  screen.width
+  screen.width/height      //Returns the total height of the screen，DOM0非标准
 
 //window.document
   document.adoptNode(node)   //Returns an adopted node from another document to this document
@@ -297,9 +289,30 @@
   document.createDocumentFragment()   //Creates an empty DocumentFragment node
   document.createElement()    //Creates an Element node
   document.createTextNode()   //Creates a Text node
+  document.createEvent(['Events'|'MouseEvents'|'UIEvents'|'MutationEvents']).initEvent(eventType, bubble, cancel)
+    Element.dispatchEvent(Event)
+
   Element.removeAttribute('attribute');
   Element.getAttribute('attribute');
   Element.setAttribute('attribute', 'value');
+
+// window.localStorage // 持久化
+// window.sessionStorage  // 仅存储于某个会话中，只保持到浏览器关闭
+// 
+  storage = localStorage || sessionStorage
+  storage.getItem(key)
+  storage.setItem(key)
+  storage.removeItem(key)
+  storage.length
+  window.onstorage = function(e) { // 数据真正改变时才触发
+    e = {
+      storageArea: 
+      key:
+      oldValue:
+      newValue:
+      url || uri
+    }
+  }
 
 //样式
   //内联样式控制  r&w
@@ -322,8 +335,7 @@
   document.documentElement.offsetWidth  //视窗内内容像数宽度
   document.documentElement.clientHeight //视窗内内容像数高度
   document.documentElement.clientWidth  //视窗内内容像数宽度
-  window.pageYOffset                    //垂直滚动距离
-  window.pageXOffset                    //水平滚动距离
+  window.pageY/XOffset                    //垂直滚动距离//水平滚动距离
   window.screenTop                      //浏览器与屏幕顶端距离
   window.screenY                        //同上
   window.screenLeft                     //浏览器与屏幕左端距离
@@ -364,8 +376,7 @@
   toElement
   fromElement
   y/x
-  webkitMovementY
-  webkitMovementX
+  webkitMovementY/X
   movementY/movementX
   detail
   view
@@ -401,22 +412,17 @@
                               hasChildNodes
 
 //内容访问
-  outerHTML /innerHTML /outerText /innerText //outer包括自身，text去掉标签
+  [outer|inner][HTML|Text] //outer包括自身，text去掉标签
 
 //类的操作 IE9
-  DOMElement.classList
-      add
-      remove
-      item        //索引，有必要存在吗？
-      contains    //判断
-      toggle      //反转 并返回当前状态
+  DOMElement.classList.add/remove/contains/toggle/item        //增加/移除/判断/反转／索引
 
 //节点操作
   newnode= document.creatElement(tabName)
   newnode= document.creatTextNode(data)
   newnode= element.cloneNode(recur)             //recur？clone all tree：enpty node
-  parent.appendChild(newnode)                   //last child
   parent.insertBefore(newnode, [node=last])     //before node or last child
+  parent.appendChild(newnode)                   //last child
   parent.removeChild(node)                      //node  will be the return
   parent.replaceChild(newnode, oldnode)
 
@@ -492,88 +498,89 @@
 ////JQuery
   $.fn  //=>$.prototype
   $.extend([deep], obj1, obj2) //
-  $.expando
-  $.isReady
-  $.error
-  $.noop
-  $.isFunction/Array/Window/Numeric/EmptyObject/PlainObject/XMLDoc
-  $.inArray
-  $.type
-  $.globalEval
-  $.camelCase
-  $.nodeName(element, nodeName) //return Boolean
-  $.each(obj, callback, args) //args?callback(args):callback(key, value)  if return false:break
-  $.trim
-  $.makeArray
-  $.merge(arr-like1, arr-like2)
-  $.grep(eles, callback(ele,index), invert) // !invert == !callback()?pass:push
-  $.filter(selector, eles, not)     //get elementNode matched selector
-  $.map(eles, callback(ele,i,arg), arg)
-  $.guid
-  $.proxy
-  $.now     //return datatime of now in Integer
-  $.support
-  $.find
-  $.expr
-  $.unique
-  $.text
-  $.contains
-  $.dir
-  $.sibling
-  $.Callbacks
-  $.Deferred
-  $.when
-  $.readyWait
-  $.holdReady
-  $.ready
-  $.acceptData
-  $.cache
-  $.noData
-  $.data/hasData/removeData
   $._data/_removeData
-  $.queue/dequeue
-  $._queueHooks
+  $._evalUrl
+  $.acceptData
   $.access
-  $.event
-  $.Event/removeEvent
-  $.clone
-  $.buildFragment
-  $.cleanData
-  $.swap
-  $.cssHooks
-  $.cssNumber
-  $.cssProps
-  $.style
-  $.css
-  $.Tween
-  $.easing
-  $.fx
-  $.Animation
-  $.speed
-  $.timers
-  $.valHooks
-  $.attr/removeAttr
-  $.attrHooks
-  $.propFix
-  $.prop
-  $.propHooks
-  $.parseJSON/XML/HTML
   $.active
-  $.lastModified
-  $.etag
+  $.ajax
+  $.ajaxPrefilter
   $.ajaxSettings
   $.ajaxSetup
-  $.ajaxPrefilter
   $.ajaxTransport
-  $.ajax
-  $.getJSON
-  $.getScript
+  $.Animation
+  $.easing
+  $.speed
+  $.text
+  $.prop/attr/removeAttr
+  $.attrHooks
+  $.propHooks
+  $.cssHooks
+  $.valHooks
+  $._queueHooks
+  $.buildFragment
+  $.cache
+  $.Callbacks
+  $.clone
+  $.contains
+  $.css
+  $.cssNumber // {css_prop: Boolean} 指定css属性是否不带单位
+  $.cssProps // 存放标准化的css属性名
+  $.data/hasData/removeData/cleanData
+  $.Deferred
+  $.dir
+  $.each(obj, callback, args) //args?callback(args):callback(key, value)  if return false:break
+  $.error
+  $.etag
+  $.event
+  $.Event/removeEvent
+  $.expando
+  $.expr
+  $.filter(selector, eles, not)     //get elementNode matched selector
+  $.find
+  $.fx
   $.get/post
-  $._evalUrl
-  $.param     //将一个对象字符串化成一个url hash
-  $.offset
+  $.getJSON/Script
+  $.globalEval
+  $.grep(eles, callback(ele,index), invert) // !invert == !callback()?pass:push
+  $.guid
+  $.lastModified
+  $.map(eles, callback(ele,i,arg), arg)
   $.noConflict
+  $.noData
+  $.nodeName(element, nodeName) //return Boolean
+  $.offset
+  $.parseJSON/XML/HTML
+  $.propFix
+  $.proxy(func, context)
+  $.queue/dequeue
+  $.ready
+  $.readyWait
+  $.holdReady
+  $.sibling
+  $.support
+  // global only
+  $.style(ele, name, val, extra)
+  $.swap(ele, cssObj, cb, args)  // apply style in cssObj => cb.call(ele, args) => restore style
+  $.timers
+  // util
+  $.trim()
+  $.camelCase() // 'font-size' => 'fontSize'
+  $.unique()
+  $.merge(arr-like1, arr-like2)
+  $.type()
+  $.makeArray(arr)
+  $.param()     //将一个对象字符串化成一个url hash
+  $.now()     //return datatime of now in Integer
+  $.inArray(ele, arr)
+  $.isFunction/Array/Window/Numeric/EmptyObject/PlainObject/XMLDoc()
+  // global property
+  $.noop    // empty function
+  $.isReady
+  $.when
+  $.Tween
 
+  size()  //return this.length
   length
   prevObject
   context
@@ -581,38 +588,41 @@
   jquery
   constructor
 
-  toArray
-  get
-  pushStack
-  sort(pre, next)/each(index,node)/map
-  slice
+  toArray // return slice.call( this );
+  pushStack(eles) // create a new jquery object
   first/last/eq
-  end
-  push
-  splice
+  get(num)          // return num!=null?this[num]?this.toArray()
+  each(index,node)  // return jQuery.each( this, callback, args );
+  map(func, args)   // $($.map(this, function() {func()}))
+  slice     // return this.pushStack( [].slice.apply( this, arguments ) );
+  splice    // [].splice
+  push      // [].push
+  sort(pre, next)   // [].sort
   extend
-  find
-  filter
-  not
-  is
-  has
+  find(selector)
+  filter(func)
+  not/is
+  has(targets) // return on of targets in this
   init
-  closest
-  index
-  add
-  addBack
+  closest(selector)  // return the first matched traveling up the DOM tree  from self
+  index(ele) ele?this.indexOf(ele):parentNode.indexOf(this)
+  end
+  addBack(selector) // concat preObject to the current set , optionally filtered by selector
+  andSelf //this.add( selector == null ?this.prevObject : this.prevObject.filter(selector)
+
 
   children/siblings/parent/parents/parentsUntil
   next/nextAll/nextUntil/prev/prevAll/prevUntil
   height/innerHeight/outerHeight/width/innerWidth/outerWidth/scrollLeft/scrollTop
-  position/offset //relative/absolute(top, left)
+  position/offset //get coordenaries(top, left) relate to offsetParent/document
+  offsetParent
   css/text/html
-  remove/clone/empty/replaceWith/replaceAll //删除/克隆/清空/替换为/替换掉
-  append/prepend/before/after/appendTo/prependTo/insertBefore/insertAfter
+  add(selector, context)/detach/remove/clone/empty/replaceWith/replaceAll //添加/解除/净身解除/克隆/清空/替换为/替换掉
+  append/prepend/before/after(content|function(index, eleHtml))/appendTo/prependTo/insertBefore/insertAfter
   show/hide/toggle/fadeTo/slideDown/slideUp/slideToggle/fadeIn/fadeOut/fadeToggle
   val/attr/prop/data/removeAttr/removeProp/removeData
 
-  addClass/removeClass/toggleClass/hasClass
+  [add|remove|toggle|has]Class(classes, Boolean/* toggle only*/)
 
   blur/focus/focusin/focusout
   mousedown/up/move/over/out/enter/leave
@@ -625,26 +635,17 @@
   contents
   queue/dequeue/clearQueue
   promise
-  on/one/off/trigger /绑定/单次绑定/解绑/触发
+  one/on|bind/off|unbind/trigger 单次绑定//绑定/解绑/触发
   triggerHandler
-  detach
+  
   domManip
   delay/animate/stop/finish //延迟/开始/暂停/结束
 
-  bind/unbind
   delegate/undelegate
-  ajaxStart
-  ajaxStop
-  ajaxComplete
-  ajaxError
-  ajaxSuccess
-  ajaxSend
+  ajaxStart/Stop/Complete/Error/Success/Send
   wrap/wrapAll/wrapInner/unwrap
-  serialize
-  serializeArray
-  offsetParent
-  size()  //return this.length
-  andSelf //this.add( selector == null ?this.prevObject : this.prevObject.filter(selector)
+  serialize // return jQuery.param( this.serializeArray() );
+  serializeArray // get [{name, value}] from a form
 
   :first/last
   :eq(index)

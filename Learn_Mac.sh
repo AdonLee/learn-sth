@@ -12,3 +12,14 @@
 	MH_MAGIC_64  X86_64        ALL  0x00      BUNDLE    22       2808   NOUNDEFS DYLDLINK TWOLEVEL
 
 export DYLD_PRINT_SEGMENTS=1 #让连接器在命令执行时打印LC_SEGMENTS命令
+
+#配置项
+#	设置
+	defaults write com.apple.finder AppleShowAllFiles 	-bool 	true
+	defaults write packagename 		configItem  		-{type} value
+
+#	获取
+	defaults read packagename configItem
+
+# 按照composer
+	curl -sS https://getcomposer.org/installer | php
