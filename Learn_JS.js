@@ -183,18 +183,16 @@
   window.self             //Returns the current window
   window.status           //Sets or returns the text in the statusbar of a window
   window.top              //Returns the topmost browser window
-  window.atob()       //Decodes a base-64 encoded string
-  window.btoa()       //Encodes a string in base-64
-  window.blur()       //Removes focus from the current window
-  window.focus()      //Sets focus to the current window
-  window.moveBy()     //Moves a window relative to its current position
-  window.moveTo()     //Moves a window to the specified position
+  window.atob/btoa()      //Decodes a base-64 encoded string <==> Encodes a string in base-64
+  window.blur/focus()     //Removes/Sets focus
   window.print()      //Prints the content of the current window
-  window.resizeBy()   //Resizes the window by the specified pixels
-  window.resizeTo()   //Resizes the window to the specified width and height
-  window.scrollBy()   //Scrolls the content by the specified number of pixels
-  window.scrollTo()   //Scrolls the content to the specified coordinates
-  window.stop()       //Stops the window from loading
+  window.moveBy(dx, dy)     //Moves a window relative to its current position
+  window.moveTo(x, y)       //Moves a window to the specified position
+  window.resizeBy(dw, dh)   //Resizes the window by the specified pixels
+  window.resizeTo(w, h)     //Resizes the window to the specified width and height
+  window.scrollBy(dx, dy)   //Scrolls the content by the specified number of pixels
+  window.scrollTo(x,y)      //Scrolls the content to the specified coordinates
+  window.stop()             //Stops the window from loading
   //消息对话框
   window.alert('message');
   window.confirm('message');          //return boolean
@@ -307,8 +305,7 @@
   //内联样式控制  r&w
       Obj.style.property = stylevalue
   //获取计算后样式 r only
-  //IE || 非IE, IE9+
-  CSSObj = Obj.currentStyle || window.getComputedStyle(Obj[, psudo])
+  CSSObj = Obj.currentStyle/*IE*/ || window.getComputedStyle(Obj[, psudo]) /*非IE, IE9+*/
   CSSObj
       .property   //部分不兼容
       .getPropertyValue(property)    //css-case
@@ -341,9 +338,9 @@
   //获取事件目标
   e.type = e.type || e.srcElement
   //阻止事件默认行为：
-  e.preventDefault?e.preventDefault():(window.event.returnValue = true)
+  e.preventDefault?e.preventDefault():(e.returnValue = true)
   //阻止事件冒泡行为：
-  e.stopPropagation?e.stopPropagation():(window.event.cancelBubble = true)
+  e.stopPropagation?e.stopPropagation():(e.cancelBubble = true)
 //标准Event 属性和方法
   clientX/clientY //返回鼠标在窗口客户区域中的x/y坐标。
   screenX/screenY //返回鼠标相对于用户屏幕的x/y坐标
@@ -494,12 +491,12 @@
 
 ////JQuery
   $.fn  //=>$.prototype
-  $.extend(obj1, obj2) //
+  $.extend([deep], obj1, obj2) //
   $.expando
   $.isReady
   $.error
   $.noop
-  $.isFunction/Array/Window/Numeric/EmptyObject/PlainObject
+  $.isFunction/Array/Window/Numeric/EmptyObject/PlainObject/XMLDoc
   $.inArray
   $.type
   $.globalEval
@@ -520,7 +517,6 @@
   $.expr
   $.unique
   $.text
-  $.isXMLDoc
   $.contains
   $.dir
   $.sibling
@@ -534,15 +530,12 @@
   $.cache
   $.noData
   $.data/hasData/removeData
-  $._data
-  $._removeData
-  $.queue
-  $.dequeue
+  $._data/_removeData
+  $.queue/dequeue
   $._queueHooks
   $.access
   $.event
-  $.removeEvent
-  $.Event
+  $.Event/removeEvent
   $.clone
   $.buildFragment
   $.cleanData
@@ -559,14 +552,12 @@
   $.speed
   $.timers
   $.valHooks
-  $.attr
-  $.removeAttr
+  $.attr/removeAttr
   $.attrHooks
   $.propFix
   $.prop
   $.propHooks
-  $.parseJSON
-  $.parseXML
+  $.parseJSON/XML/HTML
   $.active
   $.lastModified
   $.etag
@@ -577,11 +568,9 @@
   $.ajax
   $.getJSON
   $.getScript
-  $.get
-  $.post
+  $.get/post
   $._evalUrl
-  $.param
-  $.parseHTML
+  $.param     //将一个对象字符串化成一个url hash
   $.offset
   $.noConflict
 
@@ -921,6 +910,37 @@
       return data
     }
   })    
+
+// seajs
+// seajs 兼容AMD的依赖前置，而部分库只识别AMD，做一下兼容
+  define.amd = {};
+
+  seajs.config({
+    base: 'file:///Users/adonlee/data/ueditor/bower_components/',
+
+    // seajs根据模块id查找模块
+    alias: {
+
+      jquery: 'jquery/dist/jquery'
+      // jquery: 'rootDir/third-party/jquery-1.10.2'
+    },
+    paths: {
+      rootDir: './'
+      ,componentDir: './bower_components'
+    }
+  })
+
+  define('index', function(require, exports, module) {
+    var $ = require('jquery');
+    $('.container').text('this is the first test!!');
+  })
+  seajs.use('index')
+
+  // seajs.use(id, cb); seajs查找对应id的模块
+  // 由于jquery内部提供的模块ID为jquery，如果使用实际路径作为ID，seajs将匹配不到jquery，需对jquery的实际路径取别名
+  // seajs.use('jquery', function($) {
+  //  $('.container').text('this is the first test!!');
+  // })
 
 
 //base64加密算法

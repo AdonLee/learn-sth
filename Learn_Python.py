@@ -89,17 +89,17 @@ dir(object)  #获取对象所有属性与方法
   sorted(list [, func(pre, next)])  # pre, next = next, pre if return >0
 
 #匿名函数
-  lambda args：statements #没有return语句，statements结果即为输出
-  如果包含yeild语句则生成器
+  lambda args:statements  #没有return语句，statements结果即为输出
+                          #如果包含yeild语句则生成器
 
 #库目录
-/usr/lib64/python2.7
+#/usr/lib64/python2.7
 
 #获取网页
->>> import urllib.request as urlreq
->>> filename, headers = urlreq.urlretrieve('http://python.org/'[, filename])
->>> html = open(filename)
->>> html.close()
+  import urllib.request as urlreq
+  filename, headers = urlreq.urlretrieve('http://python.org/'[, filename])
+  html = open(filename)
+  html.close()
 
 #json
 import json
@@ -112,12 +112,35 @@ import json
 
 #re
   import re
-  m = re.match(re, str)
+
+  #module level function ==> RE string 
+  re.split(ReString)
+  re.search(ReString)
+  re.findall(ReString)
+  re.match(ReString)
+  re.compile(ReString)
+  re.sub(ReString)
+
+
+  #预编译正则
+  REcompiled ＝ re.compile("a(\d{1,3})b", re.X | re.M)
+  # Flag    Meaning
+  # I  2    IGNORECASE,       Do case-insensitive matches
+  # L  4    LOCALE,           Do a locale-aware match
+  # M  8    MULTILINE,        Multi-line matching, affecting ^ and $
+  # S  16   DOTALL,           Make . match any character, including newlines
+  # X  64   VERBOSE           Enable verbose REs, which can be organized more cleanly and understandably.
+  # A  256  ASCII,            Makes several escapes like \w, \b, \s and \d match only on ASCII characters with the respective property.
+
+  m = re.match(ReString, str)
   m.group(n)
 
-  #获取分组
-  re.compile("a(\d{1,3})b").findall('a343bkda43bsk') ==>['343','43']
 
+  #获取分组
+  REcompiled.findall('a343bkda43bsk') #==>['343','43']
+
+  #替换
+  re.sub("(?P<text>[^\s].*[^\s])", '{/* \g<text> */}', commentBlock)
 
   os.path.getsize(local_filename)
 
