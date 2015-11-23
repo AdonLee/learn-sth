@@ -79,16 +79,131 @@
       }
 
 //Object
-  Object.constructor               //对创建对象的函数的引用（指针）。对于 Object 对象，该指针指向原始的 Object() 函数。
-  Object.Prototype                 //对该对象的对象原型的引用。对于所有的对象，它默认返回 Object 对象的一个实例。
-  Object.hasOwnProperty(property) //判断对象是否有某个特定的属性。
-  Object.IsPrototypeOf(object)   //判断该对象是否为另一个对象的原型。
-  Object.PropertyIsEnumerable   //判断给定的属性是否可以用 for...in 语句进行枚举。
-  Object.ToString()          //返回对象的原始字符串表示。对于 Object 对象，ECMA-262 没有定义这个值，所以不同的 ECMAScript 实现具有不同的值。
-  Object.ValueOf()           //返回最适合该对象的原始值。对于许多对象，该方法返回的值都与 ToString() 的返回值相同。
+  obj.constructor                //对创建对象的函数的引用（指针）。对于 Object 对象，该指针指向原始的 Object() 函数。
+  obj.Prototype                  //对该对象的对象原型的引用。对于所有的对象，它默认返回 Object 对象的一个实例。
+  obj.hasOwnProperty(property)   //判断对象是否有某个特定的属性。
+  obj.IsPrototypeOf(object)      //判断该对象是否为另一个对象的原型。
+  obj.PropertyIsEnumerable       //判断给定的属性是否可以用 for...in 语句进行枚举。
+  obj.ToString()                 //返回对象的原始字符串表示。对于 Object 对象，ECMA-262 没有定义这个值，所以不同的 ECMAScript 实现具有不同的值。
+  obj.ValueOf()                  //返回最适合该对象的原始值。对于许多对象，该方法返回的值都与 ToString() 的返回值相同。
+  Object.defineProperty(obj, prop, descriptor)
+      {
+        /* 描述对象 */
+        value: function(args) {return result}
+        ,get: function() {return result}
+        ,set: function(value) {}
+        ,configurable: Boolean
+        ,enumerable: Boolean // 是否可枚举
+        ,writable: Boolean
+      }
+  // ES5有三个操作会忽略enumerable为false的属性。
+    // for...in         :循环只遍历对象自身的和继承的可枚举的属性
+    // Object.keys()    :返回对象自身的所有可枚举的属性的键名
+    // JSON.stringify() :只串行化对象自身的可枚举的属性
+  // ES6新增了两个操作，会忽略enumerable为false的属性。
+    // Object.assign()：只拷贝对象自身的可枚举的属性
+    // Reflect.enumerate()：返回所有for...in循环会遍历的属性
+
+  // es6
+  Object.getPrototypeOf(obj)
+  Object.setPrototypeOf(obj, prototype)
+  Object.getOwnPropertyDescriptor(obj, prop) // 获取对象属性的描述对象
+  Object.assign(target, ...source)  //将source自身的可枚举属性复制或覆盖target，
+                                    // 浅拷贝, 阉割版$.extend
+                                    // 能处理数组，但会当作对象处理
+  Object.is(a, b)                   //与(===)基本一致，除了
+                                    // Object.is(+0, -0) // false
+                                    // Object.is(NaN, NaN) // true
+  // es7
+  Object.observe(obj, observer, [change.type])
+  Object.unObserve(obj, observer);
+    observe = function(changes) {
+                changes.forEach(function(change) {
+                  console.log('发生变动的属性：' + change.name);
+                  console.log('变动前的值：' + change.oldValue);
+                  console.log('变动后的值：' + change.object[change.name]);
+                  console.log('变动类型：' + change.type); // add|update|delete|setPrototype|recofigure|preventExtensions
+                });
+              }
 
 //操作符之间的优先级（高到低）:
   算术操作符 → 比较操作符 → 逻辑操作符 → "="赋值符号
+
+// Function
+  Function.length                   //返回未指定默认值的形参个数
+  Function.call(obj, ...argn)       //切换执行上下文 传入参数并执行
+  Function.apply(obj, [...argn])    //同上
+  Function.bind(obj)                //返回一个以obj为执行上下文的func
+  Function.name                     //返回函数名, 广泛支持
+                                    //ES6，才将其写入了标准
+                                    //如果将一个匿名函数赋值给一个变量，ES5的name属性，会返回空字符串，而ES6的name属性会返回实际的函数名
+                                    //(new Function).name // "anonymous"
+                                    //bind返回的函数，name属性值会加上“bound ”前缀。
+                                    //类的get/set函数，则会加上get/set前缀
+  caller: funcName.caller   //返回当前执行函数的调用者
+  callee: arguments.callee  //函数的自我引用，ES5严格模式中已被废弃(破坏封装，抵消内联函数带来性能的提升)
+
+//字符串处理
+  str.length
+  str.[i|lastI]ndexOf(substring, offset)  //正|反向检索
+  str.charAt(index)
+  str.charCodeAt(index)
+  str.split(separator='', maxlen)    // maxlen limits the length of return array
+  str.slice(startPos, endPos=END)    //接受负数，而substring则视为0
+  str.substring(startPos, endPos=END)
+  str.substr(startPos, length)
+  str.to[Locale]Upper/LowerCase()
+  str.localeCompare(str)  //>str?正数：负数，相同返回0
+  String.fromCharCode(charCode)
+  obj.toString()
+  // es6
+  str.includes(substr, offset):Boolean
+  str.startWith(substr, offset):Boolean
+  str.endsWith(substr, offset):Boolean
+  str.repeat(times:Integer):String
+  str.at(index)                // String.charAt(index), 增加对32位utf-16的支持
+  str.codePointAt(index)       // String.charCodeAt
+  String.fromCodePoint(codePoint) // String.fromCharCode
+
+//数字转换
+  Number.toString(n=10)  //n进制转换
+  Number.toFixed(n)   //四舍五入到小数点n（0<n<20）位
+  Number.toString     //把数字转换为字符串，使用指定的基数。
+  Number.toBitString     //把数字转换为二进制字符串
+  Number.toLocaleString  //把数字转换为字符串，使用本地数字格式顺序。
+  Number.toExponential //把对象的值转换为指数计数法。
+  Number.toPrecision    //把数字格式化为指定的长度。会对数进行舍入
+  Number.valueOf      //返回一个 Number 对象的基本数字值。
+
+// 符号Symbol
+  Symbol([desciption])  
+  // 返回一个独一无二的值: Symbol() == Symbol() ==> false
+  // description只用于区分
+  // 不是对象，所以不能添加属性。基本上，它是一种类似于字符串的数据类型
+  // 主要用于对象属性名，能保证不会出现同名的属性, 能防止某一个键被不小心改写或覆盖
+    {[sym]: 'yizhi'} // 需使用［］包裹：
+  
+  // Symbol值不能与其他类型的值进行运算，会报错, 除了
+    Boolean(Symbol())     // true
+    String(Symbol())      // 'Symbol()'
+    String(Symbol('dec')) // 'Symbol(dec)'
+
+//数组[]
+  new Array(arguments)    //当只有一个参数且为整数时 返回一个对应长度的空数组
+  []                      //返回一个空数组， 推荐方式(短小简洁，可读性)
+  arr.length            //可写,小于原值会发生截取
+  arr.concat(...arr1)
+  arr.join(seperator=',') //
+  arr.reverse()
+  arr.slice(starPos, endPos=END)
+  arr.sort(sortFunc=Unicode order) // sortFunc(a, b) > 0 ? a<=>b:;
+  arr.shift()       //pop and return the first
+  arr.unshift(eles) //prepend and return the length
+  arr.pop()         //pop and return the last
+  arr.push(eles)    //append and return the length
+  arr.splice(offset,len,[items])//replace with items then retrun which deleted
+  arr.map(function(a){})
+  arr.reduce(function(a,b){})
 
 //日期
   Date.get/setDate()      //日期
@@ -101,51 +216,11 @@
   Date.get/setSeconds()   //
   Date.get/setTime()      //时间(ms)
 
-//字符串处理
-  String.length
-  String.[i|lastI]ndexOf(substring, offset)  //正|反向检索
-  String.charAt(index)
-  String.charCodeAt(index)
-  String.split(separator='', maxlen)    // maxlen limits the length of return array
-  String.slice(startPos, endPos=END)    //接受负数，而substring则视为0
-  String.substring(startPos, endPos=END)
-  String.substr(startPos, length)
-  String.to[Locale]Upper/LowerCase()
-  String.localeCompare(str)  //>str?正数：负数，相同返回0
-  obj.toString()
-
-//数字转换
-  Number.toString(n=10)  //n进制转换
-  Number.toFixed(n)   //四舍五入到小数点n（0<n<20）位
-  Number.toString     //把数字转换为字符串，使用指定的基数。
-  Number.toBitString     //把数字转换为二进制字符串
-  Number.toLocaleString  //把数字转换为字符串，使用本地数字格式顺序。
-  Number.toExponential //把对象的值转换为指数计数法。
-  Number.toPrecision    //把数字格式化为指定的长度。会对数进行舍入
-  Number.valueOf      //返回一个 Number 对象的基本数字值。
-
 //数学运算
   Math.ceil(x) //向上取整
   Math.floor(x) //向下取整
   Math.round(x) //四舍五入
   Math.random()  //0-1
-
-//数组[]
-  new Array(arguments)    //当只有一个参数且为整数时 返回一个对应长度的空数组
-  []                      //返回一个空数组， 推荐方式(短小简洁，可读性)
-  Array.length            //可写,小于原值会发生截取
-  Array.concat(arr1..n)
-  Array.join(seperator || ',') //
-  Array.reverse()
-  Array.slice(starPos, endPos || END)
-  Array.sort(sortFunc || Unicode order) // sortFunc(a, b) > 0 ? a<=>b:;
-  Array.shift()       //delete and return the first
-  Array.unshift(eles) //prepend new and return the length
-  Array.pop()         //delete and return the last
-  Array.push(eles)    // append new and return the length
-  Array.splice(offset,len,[items])//replace with items then retrun which deleted
-  Array.map(function(a){})
-  Array.reduce(function(a,b){})
 
 //JSON，JS对象表示语法的子集，数据在由逗号分隔的键值对中 （IE8+）
 
@@ -691,7 +766,7 @@
 
   data-bind =
     text: some words,
-    html: <p>kfjkjkd</p>,
+    html: <p>kfjkjkd</p> /,
     css: {classname: Boolean},
     attr: {attr: value, a: v}, //非合法属性名需加引号
     style: {stylename: value, sl: v}, //camal-case,
@@ -836,7 +911,7 @@
       <div>
         <input ng-model="property" type="text"/>  //双向绑定$scope.property， 用于可编辑对象
         <span ng-bind="property"></span>          //单向绑定$scope.property
-        <span>{{property}}</span>                 //同上
+        <span>{{property}}</span>                 //同上, 在angular解析执行前会显示‘{{property}}’，体验不好
         <span>{{property | filter }}</span>       //使用过滤器
         //其他预定义指令
         <button ng-click="myfunc()"></button>       //绑定点击事件
@@ -1194,13 +1269,6 @@ interface CanvasRenderingContext2D {
       };
 };
 
-//call，apply，caller，callee，bind
-  call:   func.call(obj,arg0,....argn)  //切换执行上下文 传入参数并执行
-  apply:  func.apply(obj, [arg0,.....argn]) //同上
-  bind:   func.bind(obj)    //返回一个以obj为执行上下文的func
-  caller: funcName.caller //返回 调用当前执行函数 的函数
-  callee: arguments.callee //函数的自我引用，ES5严格模式中已被废弃(破坏封装，抵消内联函数带来性能的提升)
-
 // attribute and property 特性与属性
 attribute节点都是在HTML代码中可见的，而property只是一个普通的名值对属性。
 attribute使用getAttribute方法获取，property直接属性调用
@@ -1233,29 +1301,100 @@ async:
 
 
 
+// ES6
+  let name = 'yizhi'; 
+  // 块级作用域
+  // 不存在变量提升
+  // 暂时性死区TDZ：块作用域内，let声明之前使用会抛出ReferenceError
+  // 不允许重复声明
 
+  const PI = 3.1415; 
+  // 常量，重新复制不会报错，只会默默失败
+  // 拥有let的特性
 
+  exprot const PI = 3.14 // 暴露给其他模块的常量
 
+  global // 相当于浏览器环境中的window
 
+  // 解构赋值
+  // 1.字符串解构 
+  const [a, b, c] = '123'; // a='1',b='2',c='3'
+  let {length : len} = '123'; // len=3, '字符串'也是对象
 
+  // 2.数组解构，并行赋值 (适合继承与Iterator接口的数据结构)
+  let [a, b, c=5] = [1, null]; // a=1,b=null,c=5
+    // 当对应值为undefined时，才使用默认值
+  let [, , c] = [1, 3, 5]; // c=5
+  let [a, [b]] = [1, [2, 3]]; // a=1,b=2
 
+  // 3.对象解构，不同于数组根据顺序取值，对象解构根据属性取值
+  var {age:alias, name} = {name: 'yizhi', age: 24} // name='yizhi', alias=24
+    // 先找到同名属性(age)，然后再赋给对应的变量(alias)。真正被赋值的是后者，而不是前者
+    // 相当于var {age:alias, name:name} = {name: 'yizhi', age: 24}
+  var {age, name:n} = {name: 'yizhi', age: 24} // n='yizhi', name=undefined
+  var {info:{name:n, age:a=25}} = {info: {name:'yizhi'}} // info=undefined,name=undefined, n='yizhi', a=25;
 
+  // 字符串扩展, 支持32位的UTF-16字符, 可以识别大于0xFFFF的码点
+    // JavaScript内部，字符以UTF-16的格式储存，每个字符固定为2个字节。对于那些需要4个字节储存的字符（Unicode码点大于0xFFFF的字符），JavaScript会认为它们是两个字符。
+    // JavaScript采用\uxxxx形式表示一个字符, ，这种表示法只限于\u0000——\uFFFF之间的字符。超出这个范围的字符，必须用两个双字节的形式表达
+    // ES6对这一点做出了改进，只要将码点放入大括号，就能正确解读该字符。==> 
+    '\u{1F680}' === '\uD83D\uDE80' // true;
 
+    str.charAt ==> at
+    str.charCodeAt ==> codePointAt
+    String.fromCharCode ==> fromCodePoint
+    Boolean str.includes/startWith/endsWith(substr, offset)
+    String str.repeat(times:Integer)
 
+    // 模版字符串
+    // 以反引号(`)标志，
+    // 可换行
+    // 支持内嵌变量，写在${}之中，大括号内部可以放入任意的JavaScript表达式，可以进行运算，以及引用对象属性
+      `this is first line
+        这是内嵌变量：${name}
+      this is last line`
 
+  // 函数
+    // 参数默认值：
+      function(x=1, y) {}; 
+      // 只有当对应实参为undefined,才触发默认值
+      // 注意，非尾部的参数，也是可以设置默认值的
+      // 参数默认值所处的作用域，不是全局作用域，而是函数作用域
+      // 参数变量是默认声明的，所以不能用let或const再次声明
 
+    // 参数解构: 
+    function show([x, y]) {console.log(x, y)} //  show([2,4]) ==> 2 4
 
+    // rest参数
+    // 必须是最后一个参数
+    // 函数的length属性，不包括rest参数
+    function (x, ...others) // others == arguments.slice(1);
 
+    // 箭头函数，简洁，简化回调函数
+    // 1）箭头函数没有自己的this，所以内部的this是定义时所在的对象，而不是使用时所在的对象。类似的还有arguments,super,new.target
+    // 2）不可以当作构造函数，也就是说，不可以使用new命令，否则会抛出一个错误。
+    // 3）不可以使用arguments对象，该对象在函数体内不存在。如果要用，可以用Rest参数代替。
+    // 4）不可以使用yield命令，因此箭头函数不能用作Generator函数。
 
+    var func = (arg1, arg2) => {return arg1 + arg2};   
+    var func = (arg1, arg2) => arg1 + arg2;   // 输出作为返回
+    var func = arg1 => arg1;                  // 单个参数可以省略括号
+    var func = () => arg1;                    // 无参
+    var func = () => ({name: 'yizhi'});       // 返回对象须用大括号包裹，否则被视为代码块，语法错误
+    var func = ({name, age}) => {};           // 与变量解构结合
 
+    // 尾递归优化
 
+  // 扩展运算符:... // 将一个数组转为用逗号分隔的参数序列
+    func(...args) == func.apply(null, args)
+    [1, 3, ...others] == [1, 3].concat(others)
+    // 结合数组解构
+    const [first, ...rest] = [1, 2, 3] // first=1, rest=[2,3]
+    // 解构字符串
+    [...'解构'] == ['解', '构']
 
-
-
-
-
-
-
+  // 对象字面量
+    {name, say(){}} ==> {'name': name, 'say': function(){}}  // 直接写入变量，默认会以变量名作为键名，同样支持函数
 
 
 

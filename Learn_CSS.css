@@ -1,17 +1,17 @@
 /*selector*/
 /*CSS 1*/
-  E                       
+  E
   Ea Ed
   .class                      /*Only one class can be specified per selector, work at IE6 and lower*/
   #id
   /*pseudo-classes*/
   :(link|visited|active)     /* IE7 IE6 only <a>, in CSS1*/
-  :first-line/first-letter  
+  :first-line/first-letter
   multiple classes           /*IE6 and lower act p.test.small as p.small.*/
   !important                 /*IE7*/
 /*CSS 2.1*/
   *
-  E:hover           /*IE6  only <a> */  
+  E:hover           /*IE6  only <a> */
   E:first-child     /*IE7*/
   Ep > Ec           /*IE7 directly siblings*/
   E  + F            /*IE7 next element*/
@@ -35,10 +35,10 @@
     E:empty  空
     E:only-child          /*select Element with only one Children*/
     E:(last|first)-child
-    E:nth-child/nth-last-child(kn+b)      
+    E:nth-child/nth-last-child(kn+b)
     E:only-of-type        /*select Element type-only in parentEle*/
-    E:(first|last)-of-type        
-    E:nth-(last-)of-type(kn+b)  
+    E:(first|last)-of-type
+    E:nth-(last-)of-type(kn+b)
     E:enabled/disabled/checked/read-only/read-write(/default/indeterminate)
 
 
@@ -93,7 +93,7 @@
   * position: fixed
   /*其他*/
   IE6/7的inline-block = inline + haslayout
-/*BFC*/ 
+/*BFC*/
   使元素表现为一个独立的容器，其子元素与外面的元素互不影响，常用于清除浮动
   1.处于同一个BFC中的两个垂直窗口的margin会发生重叠
   2.BFC容器不会与在流中的上下边缘接触的子元素垂直方向的margin发生重叠
@@ -108,16 +108,16 @@
   px
   em
   %
-  rem     #em of root(html)
-  vh/vw     #1vh/vm = 1% of screen.height/width
-  vmin/vmax   #min/max(vh, vw)
-  ex      #当前字体的小写x字母的高度或者 1/2 的 1em
-  ch      #数字0的宽度
+  rem         em of root(html) /*IE9+*/
+  vh/vw       1vh/vm = 1% of screen.height/width /* IE9 */
+  vmin/vmax   min/max(vh, vw)                     /* IE 不支持vmax，in IE9 refers to supporting "vm" instead of "vmin"*/
+  ex          当前字体的小写x字母的高度或者 1/2 的 1em
+  ch          数字0的宽度
 
 /*××××××××××××20140827××××××××××××*/
 
 /*加载字体文件，让浏览器端可以显示用户电脑里没有安装的字体。*/
-  @font-face {  
+  @font-face {
       font-family : 字体名称;
       src : 字体文件在服务器上的相对或绝对路径;
   }
@@ -138,7 +138,7 @@ Element[attr($|^|*)="val"] /*分别以val结尾|开头|包含*/
 
 
 /*变换*/
-transform：rotate(angle) positive value means clockwise 
+transform：rotate(angle) positive value means clockwise
 transform: skew(x, y)/skewX(x)/skewY(y)
 transform: scale(x, y)/scaleX(x)/scaleY(y)
 transform: translate(x, y)/translateX(x)/translateY(y)/translateZ(放大)
@@ -158,11 +158,11 @@ transition: property duration timing-func delay
     100% | to {}
   }
 /*调用动画 experimental*/
--prefix-animation: name duration timing-func delay 
+-prefix-animation: name duration timing-func delay
   iteration-count: infinite | <float number>
-  direction: 
+  direction:
     normal 循环;
-    alternate 来回 
+    alternate 来回
     reverse
     alternate-reverse
   play-stats:runing | paused
@@ -178,12 +178,12 @@ box-sizing: content-box| border-box(height = content+ padding + border)
 border content+padding background-image background-color margin
 
 /*媒体查询 media queries ：set css to corresponding media*/
-  assume MT = "all| screen| print..."  
+  assume MT = "all| screen| print..."
   assume MQ = "(not) MT and mediaAttr[and mediaAttr.....]"
   assume MQ = MQ[,MQ]*
   1.use MQ as the media attr in link tab
   2.@import url("###.css")MT /*use in css file or style tab ,but ie6/7*/;
-  3.@media MQ{ css statement}  
+  3.@media MQ{ css statement}
 
 /*只有缩放属性*/
   resize: none|both|horizontal|inherit
@@ -220,7 +220,7 @@ border content+padding background-image background-color margin
 /*段落排版*/
   text-indent
   text-decoration: underline| line-through
-  text-align: left| center| right
+  text-align: left| center| right | justify
   line-high:
   letter-spacing:
 
@@ -279,7 +279,7 @@ border content+padding background-image background-color margin
     column-span: none| all 用于子元素
   /*2. 灵活盒布局(Flexible Box Layout)//伸缩布局*/
     /*define a flex container*/
-      display: flex   
+      display: flex
       flex-direction: column|row /* vertically and horizonly*/
       justfy-content|align-items: flex-start| center| flex-end
       flex-flow: [flex-direction] [flex-wrap]
@@ -335,20 +335,20 @@ border content+padding background-image background-color margin
 
 
 
-/*LESS and SaSS(基于ruby)*/
+/*LESS and SaSS*/
 
   /*1.插入文件*/
     @import 'path/filename'; /*若扩展名为.css则直接插入*/
 
   /*2.嵌套*/
-    #p{ 
+    #p{
       c{
         &:hover{}
       }
     } ==>
-      #p{} 
-      #p c{} 
-      #p c:hover{} 
+      #p{}
+      #p c{}
+      #p c:hover{}
 
   /*3.注释*/
     /*保留*/
@@ -359,14 +359,14 @@ border content+padding background-image background-color margin
   SaSS: $variable: value [!default]   /*$color：#4D6535*/
 
   /*5.mixin混合 ,类似函数*/
-  LESS:                                              
-    .mixin-name( @var: defaultVal ){       // parameter is seperated by ';'          
-      /*less code*/                                  
-    }                                                
-    .class{                                          
-      color: blue;                                   
-      .mixin-name                                    
-    }                                                
+  LESS:
+    .mixin-name( @var: defaultVal ){       // parameter is seperated by ';'
+      /*less code*/
+    }
+    .class{
+      color: blue;
+      .mixin-name
+    }
   SaSS:
     @mixin mixin-name() {                  // parameter is seperated by ','
       /*sass code*/
@@ -387,13 +387,13 @@ border content+padding background-image background-color margin
       s, S - 可以被除了颜色的之外的任何类型参数替换。如果你将它们和字符串一起使用，则只有字符串的值会被使用，引号会被忽略。
 
     /*数学函数*/
-    ceil/floor/percentage(number)  
-    round(number[, n=0]) 
-    abs/sqrt 
+    ceil/floor/percentage(number)
+    round(number[, n=0])
+    abs/sqrt
     pow/mod()       /*ignore unit of the second*/
     min max
-    cos acos sin asin tan atam 
-    pi()   /*return PI*/ 
+    cos acos sin asin tan atam
+    pi()   /*return PI*/
 
     /*列表函数*/
     @list: "banana", "tomato", "potato", "peach"; /*逗号或空格隔开*/
@@ -403,7 +403,7 @@ border content+padding background-image background-color margin
     /*类型函数*/
     isnumber/string/color/keyword/url/pixel/em/percentage
     isunit(cssText，unit)  /*匹配单位*/
-    
+
     /*颜色定义函数*/
     rgb(90, 129, 32)  /*#5a8120*/
     hsl(hue, saturation, lightness)
@@ -423,7 +423,7 @@ border content+padding background-image background-color margin
     hue/saturation/lightness(HSL)
     hsvhue/hsvsaturation/hsvvalue(HSV)
     red/green/blue/alpha/luma(RGB)
-      
+
     /*颜色处理*/
     saturate/desaturate(HSL, percentage)
     darken/lighten(HSLA, 10%)
@@ -437,7 +437,7 @@ border content+padding background-image background-color margin
     contrast
 
     /*颜色混合函数*/
-    multiply(c1, c2)    /*各通道值相乘/255，变暗*/ 
+    multiply(c1, c2)    /*各通道值相乘/255，变暗*/
     screen              /*变亮/滤色*/
     overlay           /*叠加，令浅的颜色变得更浅，深的颜色变得更深*/
     softlight   /*柔光*/
@@ -447,13 +447,13 @@ border content+padding background-image background-color margin
     average     ==>(c1+c2)/2
     exclusion   /*差值/排除*/
 
-    
+
     /*其他*/
     color('#ccc')           /*string to Color*/
     convert(14cm, mm)       /*==> 140mm*/
     data-uri([mime,] url)   /*url to base64Object*/
     default
-    unit(dimension, unit)   /*单位转换，无单位参数则删除单位*/               
+    unit(dimension, unit)   /*单位转换，无单位参数则删除单位*/
 
   /*7.变量插入*/
   LESS:
@@ -483,14 +483,14 @@ border content+padding background-image background-color margin
   /*js 赋值*/
     @string: `'howdy'.toUpperCase()`; /* @string 变成 'HOWDY' */
     @var: ~`'@{string}'.topUpperCase()`; /* 变为 'HOWDY' */
-     
+
     /* 获取文档的信息 */
     @height = `document.body.clientHeight`;
 
   /*转义*/
-    .class {  
-       filter: ~"progid:DXImageTransform.Microsoft.Alpha(opacity=20)";  
-    } 
+    .class {
+       filter: ~"progid:DXImageTransform.Microsoft.Alpha(opacity=20)";
+    }
 
   SaSS only
   /*命名空间*/
@@ -524,7 +524,7 @@ border content+padding background-image background-color margin
   .btn-[xs|sm|lg]  /*as same as .btn in .btn-group-** */
   .btn-group-[xs|sm|lg]
 
-.alert 
+.alert
   .alert-success
   .alert-info
   .alert-warning
@@ -532,7 +532,7 @@ border content+padding background-image background-color margin
 
 ul.nav [nav-pills | nav-tabs]
 
-table.table [.table-bordered | 
+table.table [.table-bordered |
       .table-condensed
       .table-striped
       .table-hover   /*highlight the hovering tr*/
@@ -543,23 +543,26 @@ nav.navbar [navbar-default | navbar-inverse | navbar-static-top | navbar-fixed-t
     .navbar-header
       button.navbar-toggle.collapse
       a.navbar-brand
-    .navbar-collapse collapse 
+    .navbar-collapse collapse
       ul.nav.navbar-nav
         li.dropdown
           a.dropdown-toggle
-          ul.dropedown-menu 
+          ul.dropedown-menu
       form.navbar-form
         .form-group
 
-form.form-horizontal.form-inline
+form.form-[horizontal|inline]
   .form-group[-sm|lg]
-    .form-control [-static|break]
+    .form-control [-static|break|feedback]
+    .[checkbo|radio][-inline]
+    .input-[sm|lg]
 
 .progress
   .progress-bar.progress-bar-[success|info|wraning|danger|striped]:aria-valuenow:aria-valuemin:aria-valuemax
-          
+
 ul.list-group
   li.list-group-item[.active]
+    .list-group-item-[heading|text]
 
 .panel.panel-[default|primary|success|info|warning|danger]
   .panel-heading
