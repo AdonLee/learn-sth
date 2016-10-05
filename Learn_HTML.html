@@ -1,53 +1,99 @@
 
-meta
-  http-equiv
-    pragma        no-cache   //禁止缓存
-    content-type    text/html[; charset=UTF-8]
-    content-language  zh-CN
-    refresh       5[; url=http://www.dreamdu.com/] //定时刷新
-    expires       Sunday 26 October 2008 01:00 GMT
-  name
-    keywords      ywrd1 kywrd2
-    description     
-    author    
-    copyright     
-    date        //网页生成时间
-    robots          //搜索引擎策略
-      none|all    //是否忽略此网页，=noindex，nofollow。
-      noindex |index  //是否索引此网页。
-      nofollow |follow //是否继续通过此网页的链接索引搜索其它的网页。
-      <meta name="googlebot" content="noindex, nofollow" /> //针对google
-      <meta name="baiduspider" content="noarchive" />   //针对百度
-    viewport
-      width =数值/device-width
-      height =数值/device-height
-      initial-scale =初始缩放比例
-      maximum-scale =最大缩放比例
-      minimum-scale =最小缩放比例
-      user-scalable =yes/no
-| http://www.imooc.com/course/ajaxmediainfo/?mid=pageid&mode=html5|flash
+<meta charset="utf-8">
+<meta http-equiv="content-language" content="zh-CN">
+<meta http-equiv="content-type" content="text/html[; charset=UTF-8]">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
 
-fieldset      | 用于组合表单内多个相关联的控件
-legend        | represents a caption for the content of its parent <fieldset>
-datalist      | contains a set of <option> elements that represent the values available for other controls whose list attribute is it's id.
-keygen        | !!deprecated
-meter         | 表示一个标量或者分数,
-  | min=0/max=1           | 取值范围
-  | low>=min/high<=max    | 警戒范围
-progress      | 进度条     | IE10
-  ｜max
-  ｜value
-optgroup      | creates a grouping of options within a <select> element.
-  | label     | the caption of the group
-  | disabled  | disable the options in this group
-hgroup
-artical       
-section       | 
-details
-embed
-menu
-object
-output
-address
-figure
-var           | represents a variable in a mathematical expression or a programming context.
+<!-- 禁止缓存 -->
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="refresh" content="5[; url=http://www.dreamdu.com/]">//定时刷新
+<meta http-equiv="expires" content="Sunday 26 October 2008 01:00 GMT">
+
+<meta name="keywords" content="ywrd1 kywrd2">
+<meta name="description" content="">
+<meta name="author" content="">
+<meta name="copyright" content="">
+<meta name="date" content="">//网页生成时间
+<meta name="robots" content="">//搜索引擎策略
+			none|all    //是否忽略此网页，=noindex，nofollow。
+			noindex |index  //是否索引此网页。
+			nofollow |follow //是否继续通过此网页的链接索引搜索其它的网页。
+<!-- 针对google -->
+<meta name="googlebot" content="noindex, nofollow" />
+<!-- 针对百度 -->
+<meta name="baiduspider" content="noarchive" />
+<meta name="viewport"
+	content="width=数值/device-width,height=数值/device-height,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=yes/no">
+
+<form action="">
+	<!-- 用于组合表单内多个相关联的控件 -->
+	<fieldset>
+		<legend>represents a caption for the content of its parent fieldset</legend>
+		<input type="text">
+	</fieldset>
+</form>
+
+<article>
+	<header></header>
+	<footer></footer>
+</article>
+
+<progress max="" value=""></progress>      | 进度条     | IE10
+
+<select name="" id="">
+	<!-- creates a grouping of options within a <select/> element. -->
+	<optgroup label="the caption of the group" disabled="disable the options in this group">
+		<option value=""></option>
+		<option value=""></option>
+	</optgroup>
+	<option value=""></option>
+</select>
+
+<!-- contains a set of <option/> elements that represent the values available for other controls whose list attribute is it's id. -->
+<datalist>
+	<option value=""></option>
+</datalist>
+
+keygen        | ⚠️deprecated
+<meter min="1" max="10"></meter>
+<!-- | 表示一个标量或者分数,
+	| min=0/max=1           | 取值范围
+	| low>=min/high<=max    | 警戒范围 -->
+
+<hgroup>
+	<h1></h1>
+	<h6></h6>
+</hgroup>
+<section></section>
+<details></details>
+<embed src="" type="">
+<menu></menu>
+<object data="" type=""></object>
+<output></output>
+<address></address>
+<figure></figure>
+<var>represents a variable in a mathematical expression or a programming context.</var>
+
+
+
+<!-- jade -->
+<!-- basic tag.classname#id text-content -->
+  <tag class="classname" id="id">text-content</tag>
+<!-- Notice: the tag is defaulted to be div -->
+<!-- attributes tag(attr=value) -->
+  <tag attr="value"></tag>
+<!-- Notice: -->
+<!-- 1.the key-value attributes could be a list seperate by ',' or a line feed -->
+<!-- 2.the value will be escaped, you can use != instead of = to prevent -->
+
+<!-- 变量 -->
+  <!-- - var var_name = var_value -->
+  <!-- tag= var_name -->
+  <tag>var_value</tag>
+  <!-- tag text_#{var_name}_moretext -->
+  <tag>text_var_value_moretext</tag>
+<!-- case -->
+    case condition
+      when cndtnone     //fall through
+      when cndtntwo [:|\n] case-handler
+      default [:|\n] case-handler
