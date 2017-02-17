@@ -6,6 +6,13 @@ defaults write com.apple.finder AppleShowAllFiles 	-bool 	true
 defaults write packagename 		configItem  		-{type} value
 defaults read packagename configItem
 
+# 设置hostname
+sudo hostname yizhi
+sudo scutil --set LocalHostName $(hostname)
+sudo scutil --set HostName $(hostname)
+sudo scutil --set ComputerName $(hostname)
+
+
 # 安装composer
 curl -sS https://getcomposer.org/installer | php
 
@@ -18,6 +25,10 @@ kextstat
 
 # windows 命令行kill进程
 taskkill /IM sublime_text* /F
+
+# -R Change the modes of the file hierarchies rooted in the files instead of just the files themselves.
+sudo chgrp -R admin /usr/local
+sudo chmod -R g+w /usr/local
 
 ```
 
@@ -58,20 +69,7 @@ export DYLD_PRINT_SEGMENTS=1 #让连接器在命令执行时打印LC_SEGMENTS命
 
 ### [bower "Agreeing to the Xcode/iOS license requires admin privileges"](https://github.com/jlong/sass-bootstrap-defunct/issues/129)
 
-```sh
-sudo xcodebuild -license
-
-```
-
-### bogon及解决方法
-
-```bash
-
-sudo hostname yizhi
-sudo scutil --set LocalHostName $(hostname)
-sudo scutil --set HostName $(hostname)
-
-```
+`sudo xcodebuild -license`
 
 
 
@@ -139,11 +137,15 @@ xdebug.collect_return ;打开收集“函数返回值”的功能。将函数的
 ```
 
 
-#Centos7新特性
-```sh
+# Centos7
+
+  #更新源
+  yum update
+
   #centos最小好化安装没有ifconfig命令
     yum clean all
     yum install net-tools #ifconfig命令在net-tools软件包里，nslookup,dig在bind-utils中
+## 新特性
   #centos使用了systemd来代替sysvinit。systemd的服务管理程序systemctl是最主要的工具。它融合 service 和chkconfig的功能于一体。你可以使用它永久性或只在当前会话中启用/禁用服务。
     systemd-cgls以树形列出正在运行的进程。它可以递归显示给定控制组内容。
     #foo服务启动/停止/重启/查看状态
@@ -175,7 +177,7 @@ xdebug.collect_return ;打开收集“函数返回值”的功能。将函数的
     5、脚本语言
     Grub 2 可以支持脚本语言，例如条件，循环，变量，函数等。
 
-#设置IP地址、网关DNS
+## 设置IP地址、网关DNS
   cd  /etc/sysconfig/network-scripts/  #进入网络配置文件目录\
   vi  ifcfg-eno16777736  #编辑配置文件
     HWADDR=00:0C:29:8D:24:73
@@ -203,19 +205,20 @@ xdebug.collect_return ;打开收集“函数返回值”的功能。将函数的
   service network restart     #重启网络
   ping www.baidu.com      #测试网络是否正常
 
-#10步配置linux服务
+## 10步配置linux服务
+```sh
   #1、配置IP地#址、DNS等
     nmtui               #a TUI (curses-based Text User Interface) for NetworkManager
     service network restart     # ifconfig | grep -A1 flags
     cat /etc/resolv.conf
 
-  #2、配置主机名主机名
+  #2、[配置主机名主机名](#hostname)
     #立即生效
       hostname lz.com
     #永久生效
-      echo lz.com> /etc/hostname
+      echo lz.com > /etc/hostname
     #配置hosts文件
-      echo 192.168.220.111   lz.com>> /etc/hosts
+      echo 192.168.220.111   lz.com >> /etc/hosts
     #查看验证
       hostname
       cat /etc/hostname
@@ -249,16 +252,10 @@ xdebug.collect_return ;打开收集“函数返回值”的功能。将函数的
   #10、测试验证
     a、本地测试
     b、网络测试
+```
 
-#设置主机名为www
-  hostname  www     #设置主机名为www
-  vi /etc/hostname  #编辑配置文件
-    www         #修改localhost.localdomain为www
-  vi /etc/hosts #编辑配置文件
-    127.0.0.1   localhost  www   #修改localhost.localdomain为www
-  shutdown -r now  #重启系统
-
-#设置时区/时间
+## 设置时区/时间
+```sh
   date  #查看当前时间
   date -s #修改系统时钟
     date 10110155        #将时间调整为10月11日凌晨1点55分：
@@ -269,25 +266,23 @@ xdebug.collect_return ;打开收集“函数返回值”的功能。将函数的
   tzselect
   #将系统时区文件指向相应的时区文件
   ln -s /etc/localtime  /usr/share/zoneinfo/$主时区(Asia)/$次时区(Shanghai)
+```
 
-#更新源
-yum update
-
-#firewalld
+## firewalld
   @PREFIX@/lib/firewalld  #被用于默认和备用配置，
   /etc/firewalld      #被用于用户创建和自定义配置文件。
   #允许httpd网络访问
   firewall-cmd --permanent --zoon=public --add-services=http
 
-#iptables
+## iptables
 
-#putty
-  root用户：Access denied
+## putty
+  # root用户：Access denied
     echo PermitRootLogin yes >> /etc/ssh/sshd_config
     service sshd restart or systemctl restart sshd.service
-    重新创建一个putty session
+    # 重新创建一个putty session
 
-#LAMP
+## LAMP
   #安装Apache ：vi /etc/httpd/conf/httpd.conf
     yum install httpd -y
     #打开防火墙
@@ -323,10 +318,11 @@ yum update
     vi /etc/php.ini
       date.timezone = PRC
     #重启mariadb、httpd
-    权限设置：chown apache.apache -R /var/www/html
-```
+    #权限设置：
+    chown apache.apache -R /var/www/html
 
-#AWK文本分析工具
+
+## AWK文本分析工具
   #以行为单位，以-F参数指定的域分隔符(默认为空格)将每行分割成多个域
   #$0代表当前读取的行 $n代表第n个域
   awk -F separator '(/pattern/)?{statements} (BEGIN|END){statements}'  file_name（支持管道传输）
@@ -345,5 +341,20 @@ yum update
   ORS                输出记录分隔符
   RS                 控制记录分隔符
 
+# raspberry
+```sh
+  # 修改密码
+  passwd
 
+  # 静态ip
+  sudo vi /etc/network/interfaces
+  # -------------------
+  # iface eth0 inet manual
+  # ++++++++++++++++++++
+  # iface eth0 inet static
+  # address 192.168.1.150
+  # netmask 255.255.255.0
+  # gateway 192.168.1.1
+  # dns-nameservers 223.5.5.5
+```
 

@@ -1,134 +1,170 @@
 //ECMAScript
 	//原始类型primitive type, 空间固定，存在栈中
-			Undefined       //唯一值undefined，声明但未初始化 或不存在的变量
-			Null            //对象
-			Boolean         //false | true
-			Number          //浮点数
-			String
+		Undefined       //唯一值undefined，声明但未初始化 或不存在的变量
+		Null            //对象
+		Boolean         //false | true
+		Number          //浮点数
+		String
 
 	//引用类型， 引用值大小会改变，从栈中分配
 	//检测对象类型
 
-		Value               Class      Type
-		-------------------------------------
-		new Function("")    Function   function
-		"foo"               String     string
-		1.2                 Number     number
-		true                Boolean    boolean
-		undefined           Undefined  undefined
+		// Value               Class      Type
+		// -------------------------------------
+		// new Function("")    Function   function
+		// "foo"               String     string
+		// 1.2                 Number     number
+		// true                Boolean    boolean
+		// undefined           Undefined  undefined
 
-		null                Null       object  //历史兼容
-		new String("foo")   String     object
-		new Number(1.2)     Number     object
-		new Boolean(true)   Boolean    object
-		new Date()          Date       object
-		new Error()         Error      object
-		[1,2,3]             Array      object
-		new Array(1, 2, 3)  Array      object
-		{}                  Object     object
-		new Object()        Object     object
-		/abc/g              RegExp     object (function in Nitro/V8)
-		new RegExp("meow")  RegExp     object (function in Nitro/V8)
+		// null                Null       object  //历史兼容
+		// new String("foo")   String     object
+		// new Number(1.2)     Number     object
+		// new Boolean(true)   Boolean    object
+		// new Date()          Date       object
+		// new Error()         Error      object
+		// [1,2,3]
+		// new Array(1, 2, 3)  Array      object
+		// {}
+		// new Object()        Object     object
+		// /abc/g
+		// new RegExp("abc", 'g')  RegExp     object (function in Nitro/V8)
 
-		Class = Object.prototype.toString.call(Value).slice(8, -1)
-		Type  = typeof Value
+		// Class = Object.prototype.toString.call(Value).slice(8, -1)
+		// Type  = typeof Value
 		// instanceof
 
-//全局方法与属性
-	String()              //相对toString(),对null和undefined值强制类型转换可以生成字符串而不引发错误
-	Boolean()             //！！
-	Number()              //把对象的值转换为数字。整个输入
-	escape()              //对字符串进行编码。  Unicode字符串  %u5751%u53E3
-	unescape()            //对由 escape() 编码的字符串进行解码。
-	encodeURI()           //把字符串编码为 URI。UTF-8字符串    %E5%9D%91
-	decodeURI()           //解码某个编码的 URI。
-	encodeURIComponent()  //把字符串编码为 URI 组件。
-	decodeURIComponent()  //解码一个编码的 URI 组件。
-	eval()                //计算 JavaScript 字符串，并把它作为脚本代码来执行。
-	getClass()            //返回一个 JavaObject 的 JavaClass。
-	isFinite()            //检查某个值是否为有穷大的数。
-	isNaN()               //检查某个值是否是数字。
-	parseFloat()          //left trim，match(/^[.+\-0-9eE]+/)
-	parseInt(String,n=10) //n进制,能识别0x开头
-	onhashchange(function() {}) // IE8+
+// 变量声明与赋值
+    var name= 'yizhi'
+    // 函数作用域
+    // 变量提升
 
-	Infinity    //代表正的无穷大的数值。
-	NaN         //指示某个值是不是数字值。
-	undefined   //指示未定义的值。
-	java        //代表 java.* 包层级的一个 JavaPackage。
-	Packages    //根 JavaPackage 对象。
+    // es6
+    let age = 'yizhi';
+    // 块级作用域
+    // 不存在变量提升
+    // 暂时性死区TDZ：块作用域内，let声明之前使用会抛出ReferenceError
+    // 不允许重复声明
 
-//模式
-	//公共（Public）
-		function Constructor(...) {
-				this.membername = value;
-		}
-		Constructor.prototype.membername = value;
-	//私有（Private）
-		function Constructor(...) {
-				var self =  this;
-				var membername =  value;
-				function  membername(...)  {...}
-		}
-		//注意，实际上函数语句
-		function  membername(...)  {...}
-		//是以下语句的缩写，两者相同：
-		var  membername = function  membername(...)  {...};
-	//特权（Privileged）
-		function Constructor(...) {
-				this.membername =  function (...)  {...};
-		}
+    const PI = 3.1415;
+    // 常量，重新复制不会报错，只会默默失败
+    // 拥有let的特性
 
-//Object
+    // 解构赋值
+    // 1.字符串解构
+    const [a, b, c] = '123'; // a='1',b='2',c='3'
+    let {length : len} = '123'; // len=3, '字符串'也是对象
+
+    // 2.数组解构，并行赋值 (适合继承与Iterator接口的数据结构)
+    let [a, b, c=5] = [1, null]; // a=1,b=null,c=5
+        // 当对应值为undefined时，才使用默认值
+    let [, , c] = [1, 3, 5]; // c=5
+    let [a, [b]] = [1, [2, 3]]; // a=1,b=2
+
+    // 3.对象解构，不同于数组根据顺序取值，对象解构根据属性取值
+    var {age:alias, name} = {name: 'yizhi', age: 24} // name='yizhi', alias=24
+        // 先找到同名属性(age)，然后再赋给对应的变量(alias)。真正被赋值的是后者，而不是前者
+        // 相当于var {age:alias, name:name} = {name: 'yizhi', age: 24}
+    var {age, name:n} = {name: 'yizhi', age: 24} // n='yizhi', name=undefined
+    var {info:{name:n, age:a=25}} = {info: {name:'yizhi'}} // info=undefined,name=undefined, n='yizhi', a=25;
+
+//类
+    // Constructor
+	function People(name, age) {
+        var _age = age || 0  // 私有属性
+
+        // 公共属性和方法，绑定在this上
+		this.name = name     // 公共属性
+        this.isTeen = function() {
+            return _age > 10 && _age < 20
+        }
+	}
+	Constructor.prototype.intelligent = true;
+
+    // es6
+    class Female {
+        Constructor(name, age) {
+            var _age = age
+            self.isTeen = function() {
+                return _age > 10 && _age < 20
+            }
+            self.name = name
+        }
+
+        intelligent = true
+
+        walk() {
+            console.log('femail walk')
+        }
+    }
+
+
+// Object
+
+    // 对象字面量
+    var obj = {} || new Object()
+
 	obj.constructor                //对创建对象的函数的引用（指针）。对于 Object 对象，该指针指向原始的 Object() 函数。
 	obj.Prototype                  //对该对象的对象原型的引用。对于所有的对象，它默认返回 Object 对象的一个实例。
 	obj.hasOwnProperty(property)   //判断对象是否有某个特定的属性。
-	obj.IsPrototypeOf(object)      //判断该对象是否为另一个对象的原型。
-	obj.PropertyIsEnumerable       //判断给定的属性是否可以用 for...in 语句进行枚举。
-	obj.ToString()                 //返回对象的原始字符串表示。对于 Object 对象，ECMA-262 没有定义这个值，所以不同的 ECMAScript 实现具有不同的值。
-	obj.ValueOf()                  //返回最适合该对象的原始值。对于许多对象，该方法返回的值都与 ToString() 的返回值相同。
-	Object.defineProperty(obj, prop, descriptor)
-			{
-				/* 描述对象 */
-				value: function(args) {return result}
-				,get: function() {return result}
-				,set: function(value) {}
-				,configurable: Boolean
-				,enumerable: Boolean // 是否可枚举
-				,writable: Boolean
-			}
-	// ES5有三个操作会忽略enumerable为false的属性。
-		// for...in         :循环只遍历对象自身的和继承的可枚举的属性
-		// Object.keys()    :返回对象自身的所有可枚举的属性的键名
-		// JSON.stringify() :只串行化对象自身的可枚举的属性
-	// ES6新增了两个操作，会忽略enumerable为false的属性。
-		// Object.assign()：只拷贝对象自身的可枚举的属性
-		// Reflect.enumerate()：返回所有for...in循环会遍历的属性
+	obj.isPrototypeOf(object)      //判断该对象是否为另一个对象的原型。
+	obj.propertyIsEnumerable       //判断给定的属性是否可以用 for...in 语句进行枚举。
+	obj.toString()                 //返回对象的原始字符串表示。对于 Object 对象，ECMA-262 没有定义这个值，所以不同的 ECMAScript 实现具有不同的值。
+	obj.valueOf()                  //返回最适合该对象的原始值。对于许多对象，该方法返回的值都与 ToString() 的返回值相同。
+
+    Object.create(proptotye, properties)
+	Object.defineProperty(obj, prop, descripter)
+    Object.definePropertys(obj, {prop: descripter})
+    Object.getOwnPropertyDescriptor(obj, prop) // 获取对象属性的描述对象
+    Object.getOwnPropertyNames(obj) // 获取自身的属性键
+    Object.keys(obj)                // 获取自身可枚举的属性键, es5中obj必须是原始对象
+    Object.getPrototypeOf(obj)
+    Object.preventExtensions(obj)
+    Object.freeze(obj) // 冻结对象
+    Object.seal(obj) // 密封对象
+    Object.isExtensible(obj)
+    Object.isFrozen(obj)
+    Object.isSealed(obj) // 是否密封, es5中obj必须是原始对象
 
 	// es6
-	Object.getPrototypeOf(obj)
+    // 对象表示简写, 直接写入变量，默认会以变量名作为键名，同样支持函数
+    // {name, say(){}} ==> {'name': name, 'say': function(){}}
+    // 动态键
+    // {[name]: yizhi}
 	Object.setPrototypeOf(obj, prototype)
-	Object.getOwnPropertyDescriptor(obj, prop) // 获取对象属性的描述对象
+    Object.getOwnPropertySymbols(obj) // 返回对象自身的（非继承的）所有 symbol 属性键。
 	Object.assign(target, ...source)  //将source自身的可枚举属性复制或覆盖target，
-																		// 浅拷贝, 阉割版$.extend
-																		// 能处理数组，但会当作对象处理
+										// 浅拷贝, 阉割版$.extend
+										// 能处理数组，但会当作对象处理
 	Object.is(a, b)                   //与(===)基本一致，除了
-																		// Object.is(+0, -0) // false
-																		// Object.is(NaN, NaN) // true
+									// Object.is(+0, -0) // false
+									// Object.is(NaN, NaN) // true
+
+    // es8                        //
+    Object.getOwnPropertyDescriptors(obj) // 获取对象属性的描述对象
 	// es7 已被废除
 	Object.observe(obj, observer, [change.type])
 	Object.unObserve(obj, observer);
-		observe = function(changes) {
-								changes.forEach(function(change) {
-									console.log('发生变动的属性：' + change.name);
-									console.log('变动前的值：' + change.oldValue);
-									console.log('变动后的值：' + change.object[change.name]);
-									console.log('变动类型：' + change.type); // add|update|delete|setPrototype|recofigure|preventExtensions
-								});
-							}
 
-//操作符之间的优先级（高到低）:
-	算术操作符 → 比较操作符 → 逻辑操作符 → "="赋值符号
+    descripter = {
+        /* 描述对象 */
+        value: undefined
+        ,get: function() {return result}
+        ,set: function(value) {}
+        ,configurable: false // 表示对象的属性是否可以被删除，以及除 writable 特性外的其他特性是否可以被修改
+        ,enumerable: false // 是否可枚举
+        ,writable: false
+    }
+
+    // 密封: 指那些不可扩展的，且所有自身属性都不可配置的（non-configurable）且属性不可删除的对象（其可以是可写的）
+    // 不可扩展：不能再添加新的自身属性
+    // ES5有三个操作会忽略enumerable为false的属性。
+        // for...in         :循环只遍历对象自身的和继承的可枚举的属性
+        // Object.keys()    :返回对象自身的所有可枚举的属性的键名
+        // JSON.stringify() :只串行化对象自身的可枚举的属性
+    // ES6新增了两个操作，会忽略enumerable为false的属性。
+        // Object.assign()：只拷贝对象自身的可枚举的属性
+        // Reflect.enumerate()：返回所有for...in循环会遍历的属性
 
 // Function
 	Function.length                   //返回未指定默认值的形参个数
@@ -141,81 +177,173 @@
 																		//(new Function).name // "anonymous"
 																		//bind返回的函数，name属性值会加上“bound ”前缀。
 																		//类的get/set函数，则会加上get/set前缀
-	caller: funcName.caller   //返回当前执行函数的调用者
-	callee: arguments.callee  //函数的自我引用，ES5严格模式中已被废弃(破坏封装，抵消内联函数带来性能的提升)
+	// caller: funcName.caller   //返回当前执行函数的调用者
+	// callee: arguments.callee  //函数的自我引用，ES5严格模式中已被废弃(破坏封装，抵消内联函数带来性能的提升)
+
+    // es6
+    // 参数默认值：
+        function func(x=1, y) {};
+        // 只有当对应实参为undefined,才触发默认值
+        // 注意，非尾部的参数，也是可以设置默认值的
+        // 参数默认值所处的作用域，不是全局作用域，而是函数作用域
+        // 参数变量是默认声明的，所以不能用let或const再次声明
+
+    // 参数解构:
+    function func0([x, y]) {console.log(x, y)} //  show([2,4]) ==> 2 4
+
+    // rest参数
+    // 必须是最后一个参数
+    // 函数的length属性，不包括rest参数
+    function func1(x, ...others) {} // others == arguments.slice(1);
+
+    // 箭头函数，简洁，简化回调函数
+    // 1）箭头函数没有自己的this，所以内部的this是定义时所在的对象，而不是使用时所在的对象。类似的还有arguments,super,new.target
+    // 2）不可以当作构造函数，也就是说，不可以使用new命令，否则会抛出一个错误。
+    // 3）不可以使用arguments对象，该对象在函数体内不存在。如果要用，可以用Rest参数代替。
+    // 4）不可以使用yield命令，因此箭头函数不能用作Generator函数。
+
+    var func2 = (arg1, arg2) => {return arg1 + arg2};
+    var func3 = (arg1, arg2) => arg1 + arg2;   // 输出作为返回
+    var func4 = arg1 => arg1;                  // 单个参数可以省略括号
+    var func5 = () => arg1;                    // 无参
+    var func6 = () => ({name: 'yizhi'});       // 返回对象须用大括号包裹，否则被视为代码块，语法错误
+    var func7 = ({name, age}) => {};           // 与变量解构结合
+
+    // 尾递归优化
+
 
 //字符串处理
+    String.fromCharCode(charCode)
+    var str = ''
 	str.length
-	str.[i|lastI]ndexOf(substring, offset)  //正|反向检索
+	str['(i|lastI)ndexOf'](substring, offset)  //正|反向检索
 	str.charAt(index)
 	str.charCodeAt(index)
 	str.split(separator='', maxlen)    // maxlen limits the length of return array
 	str.slice(startPos, endPos=END)    //接受负数，而substring则视为0
 	str.substring(startPos, endPos=END)
 	str.substr(startPos, length)
-	str.to[Locale]Upper/LowerCase()
+	str['to(Locale)?(Upper|Lower)Case']()
 	str.localeCompare(str)  //>str?正数：负数，相同返回0
-	String.fromCharCode(charCode)
 	obj.toString()
+
 	// es6
-	str.includes(substr, offset):Boolean
-	str.startWith(substr, offset):Boolean
-	str.endsWith(substr, offset):Boolean
-	str.repeat(times:Integer):String
+    // 模版字符串
+    // 以反引号(`)标志，
+    // 可换行
+    // 支持内嵌变量，写在${}之中，大括号内部可以放入任意的JavaScript表达式，可以进行运算，以及引用对象属性
+    str = `this is first line
+            这是内嵌变量：${name}
+        this is last line`
+	str.includes(substr, offset) // ==> Boolean
+	str.startWith(substr, offset) // ==> Boolean
+	str.endsWith(substr, offset) // ==> Boolean
+	str.repeat(times:Integer) // ==> String
 	str.at(index)                // String.charAt(index), 增加对32位utf-16的支持
 	str.codePointAt(index)       // String.charCodeAt
 	String.fromCodePoint(codePoint) // String.fromCharCode
 
-//数字转换
-	Number.toString(n=10)  //n进制转换
-	Number.toFixed(n)   //四舍五入到小数点n（0<n<20）位
-	Number.toString     //把数字转换为字符串，使用指定的基数。
-	Number.toBitString     //把数字转换为二进制字符串
-	Number.toLocaleString  //把数字转换为字符串，使用本地数字格式顺序。
-	Number.toExponential //把对象的值转换为指数计数法。
-	Number.toPrecision    //把数字格式化为指定的长度。会对数进行舍入
-	Number.valueOf      //返回一个 Number 对象的基本数字值。
+    // 字符串扩展, 支持32位的UTF-16字符, 可以识别大于0xFFFF的码点
+    // JavaScript内部，字符以UTF-16的格式储存，每个字符固定为2个字节。对于那些需要4个字节储存的字符（Unicode码点大于0xFFFF的字符），JavaScript会认为它们是两个字符。
+    // JavaScript采用\uxxxx形式表示一个字符, ，这种表示法只限于\u0000——\uFFFF之间的字符。超出这个范围的字符，必须用两个双字节的形式表达
+    // ES6对这一点做出了改进，只要将码点放入大括号，就能正确解读该字符。==>
+    '\u{1F680}' === '\uD83D\uDE80' // true;
 
-// 符号Symbol
+
+//数字转换
+    var num = new Number(0)
+	num.toString(n=10)  //n进制转换
+	num.toFixed(n)   //四舍五入到小数点n（0<n<20）位
+	num.toString     //把数字转换为字符串，使用指定的基数。
+	num.toBitString     //把数字转换为二进制字符串
+	num.toLocaleString  //把数字转换为字符串，使用本地数字格式顺序。
+	num.toExponential //把对象的值转换为指数计数法。
+	num.toPrecision    //把数字格式化为指定的长度。会对数进行舍入
+	num.valueOf      //返回一个 Number 对象的基本数字值。
+// Symbol
 	Symbol([desciption])
-	// 返回一个独一无二的值: Symbol() == Symbol() ==> false
+	var sym = Symbol() // 返回一个独一无二的值: Symbol() == Symbol() ==> false
 	// description只用于区分
 	// 不是对象，所以不能添加属性。基本上，它是一种类似于字符串的数据类型
 	// 主要用于对象属性名，能保证不会出现同名的属性, 能防止某一个键被不小心改写或覆盖
-		{[sym]: 'yizhi'} // 需使用［］包裹：
+	var a = {[sym] : 'yizhi'} // 需使用［］包裹：
 
 	// Symbol值不能与其他类型的值进行运算，会报错, 除了
 		Boolean(Symbol())     // true
 		String(Symbol())      // 'Symbol()'
 		String(Symbol('dec')) // 'Symbol(dec)'
 
+// Map
+    // 一个对象的键只能是字符串或者 Symbols，但一个 Map 的键可以是任意值
+    // 你可以通过size属性很容易地得到一个Map的键值对个数，而对象的键值对个数只能手动确认。WeakMap键只能为对象
+    map.set(ANY, ANY)
+    map.get(ANY)
+    map.has(ANY)
+    map.delete(ANY)
+    map.size()
+    map.clear()
+    map.forEach((value, key)=>{}, context=window)
+
 //数组[]
-	new Array(arguments)    //当只有一个参数且为整数时 返回一个对应长度的空数组
-	[]                      //返回一个空数组， 推荐方式(短小简洁，可读性)
+	var arr = []                   //返回一个空数组， 推荐方式(短小简洁，可读性)
+        || new Array(arguments)    //当只有一个参数且为整数时 返回一个对应长度的空数组
+
 	arr.length            //可写,小于原值会发生截取
-	arr.concat(...arr1)
+	arr.concat(...arr1)    // arr.push(isArray(argument) ? ...argument : argument)
 	arr.join(seperator=',') //
 	arr.reverse()
-	arr.slice(starPos, endPos=END)
-	arr.sort(sortFunc=Unicode order) // sortFunc(a, b) > 0 ? a<=>b:;
+	arr.slice(star, end=END)
+	arr.sort(sortFunc='Unicode order') // sortFunc(a, b) > 0 ? a<=>b:;
 	arr.shift()       //pop and return the first
-	arr.unshift(eles) //prepend and return the length
+	arr.unshift(...eles) //prepend and return the length
 	arr.pop()         //pop and return the last
-	arr.push(eles)    //append and return the length
+	arr.push(...eles)    //append and return the length
 	arr.splice(offset,len,[items])//replace with items then retrun which deleted
-	arr.map(function(a){})
-	arr.reduce(function(a,b){})
+
+    arr.forEach((item, index, arr) => newItem , context=window)  // return undefind
+	arr.map((item, index, arr) => newItem , context=window)
+    arr.filter((item, index, arr)=> Boolean , context=window)
+
+    arr.reduce((pre, cur, curIndex, arr)=>{}, initVal)
+	arr.reduceRight((pre, cur, curIndex, arr)=>{}, initVal)
+    arr.indexOf/lastIndexOf(element, fromIndex=0)  // return the index of element or -1(not found)
+    arr.toString() // arr.join(',')
+
+    // es2015
+    Array.isArray(arr)
+    Array.of() // return Array.from(arguments) ,special new Array()
+    Array.from() // creates a new Array instance from an array-like or iterable object.
+    arr.fill(value, start=0, end=END)
+    arr.copyWithin(pos, start, end=END) // return arr[pos:pos+end-start] = arr[start:end] if pos < 0: pos = arr.length+pos
+    arr.find((element, index, arr)=>true, context=window)       // returns the first element that satisfies the provided testing function
+    arr.findIndex((element, index, arr)=>true, context=window)  // returns the index of a found element in the array
+    arr.every((element, index, arr)=>true, context=window)       // tests whether all elements pass the test function
+    arr.some((element, index, arr)=>true, context=window)       // tests whether some element pass the test function
+    arr.entries() // returns a new Array Iterator object that contains
+        .next() // [index, element]
+    arr.keys() // returns a new Array Iterator object
+        .next() // {value: index, done: Boolean}
+    arr.includes(element, fromIndex=0) // determines whether an array includes a certain element
+
+    // 扩展运算符:... // 将一个数组转为用逗号分隔的参数序列
+    // func(...args) ==> func.apply(null, args)
+    // [1, 3, ...others] equal [1, 3].concat(others)
+    // 结合数组解构
+    let [first, ...rest] = [1, 2, 3] // first=1, rest=[2,3]
+    // 解构字符串
+    let [first, last] = ['解构'] // first='解',last='构'
 
 //日期
-	Date.get/setDate()      //日期
-	Date.get/setFullYear()  //四位年份
-	Date.get/setYear()      //两位
-	Date.get/setMonth()     //
-	Date.get/setDay()       //星期
-	Date.get/setHours()     //
-	Date.get/setMinutes()   //
-	Date.get/setSeconds()   //
-	Date.get/setTime()      //时间(ms)
+    Date.now() // equal +new Date()
+	date.get/setDate()      //日期
+	date.get/setFullYear()  //四位年份
+	date.get/setYear()      //1900到现在的年数
+	date.get/setMonth()     // zero-base
+	date.get/setDay()       //星期
+	date.get/setHours()     //
+	date.get/setMinutes()   //
+	date.get/setSeconds()   //
+	date.get/setTime()      //时间(ms)
 
 //数学运算
 	Math.ceil(x) //向上取整
@@ -229,54 +357,80 @@
 	JSON.stringify(Json) //https://msdn.microsoft.com/zh-cn/library/ie/cc836459(v=vs.94).aspx
 
 	var json = {              //1、花括号保存对象
-		name: 'lilei',        //字符串（在引号中）
+		name: "lilei",        //字符串（在双引号中）
 		age: 12,              //数字（整数或浮点数）
 		gender: true,         //逻辑值（true 或 false）
 		grade:
-			['seven','hghghd','jhdkal'] //2、方括号保存数组
+			["seven","hghghd","jhdkal"] //2、方括号保存数组
 	}
 	document.write(json.grade[1]);
 
-//window对象
-	window.closed           //Returns a Boolean value indicating whether a window has been closed or not
-	window.defaultStatus    //Sets or returns the default text in the statusbar of a window
-	window.frames           //Returns an array of all the frames (including iframes) in the current window
-	window.innerHeight/Width       //Returns the inner width of a window's content area
-	window.length           //Returns the number of frames (including iframes) in a window
-	window.name             //Sets or returns the name of a window
-	window.opener           //Returns a reference to the window that created the window
-	window.outerHeight/Width       //Returns the outer width of a window, including toolbars/scrollbars
-	window.pageX/YOffset      //Returns the pixels the current document has been scrolled (vertically) from the upper left corner of the window
-	window.parent           //Returns the parent window of the current window
-	window.screenLeft/Top        //Returns the y coordinate of the window relative to the screen
-	window.screenX/Y          //Returns the y coordinate of the window relative to the screen
-	window.self             //Returns the current window
-	window.status           //Sets or returns the text in the statusbar of a window
-	window.top              //Returns the topmost browser window
-	window.atob/btoa()      //Decodes a base-64 encoded string <==> Encodes a string in base-64
-	window.blur/focus()     //Removes/Sets focus
-	window.print()      //Prints the content of the current window
-	window.moveBy(dx, dy)     //Moves a window relative to its current position
-	window.moveTo(x, y)       //Moves a window to the specified position
-	window.resizeBy(dw, dh)   //Resizes the window by the specified pixels
-	window.resizeTo(w, h)     //Resizes the window to the specified width and height
-	window.scrollBy(dx, dy)   //Scrolls the content by the specified number of pixels
-	window.scrollTo(x,y)      //Scrolls the content to the specified coordinates
-	window.stop()             //Stops the window from loading
-	//消息对话框
-	window.alert('message');
-	window.confirm('message');          //return boolean
-	window.prompt('message');    //return input String
+//
+//全局方法与属性, 都挂载在window对象下
+    Object()
+    String()              //相对toString(),对null和undefined值强制类型转换可以生成字符串而不引发错误
+    Boolean()             //！！
+    Number()              //把对象的值转换为数字。整个输入
+    undefined   //指示未定义的值。
+    Infinity    //代表正的无穷大的数值。
+    NaN         //指示某个值是不是数字值。
 
-	//打开新窗口
-	window.open(<URL>, _top|_blank|_selft, <参数字符串>)
-			//参数字符串 top|left|width|height=number, menubar|toolbar|scrollbars|status= yes|no
+    escape()              //对字符串进行编码。  Unicode字符串  %u5751%u53E3
+    unescape()            //对由 escape() 编码的字符串进行解码。
+    encodeURI()           //把字符串编码为 URI。UTF-8字符串    %E5%9D%91
+    decodeURI()           //解码某个编码的 URI。
+    encodeURIComponent()  //把字符串编码为 URI 组件。
+    decodeURIComponent()  //解码一个编码的 URI 组件。
+    atob/btoa()      //Decodes a base-64 encoded string <==> Encodes a string in base-64
+    eval()                //计算 JavaScript 字符串，并把它作为脚本代码来执行。
+    isFinite()            //检查某个值是否为有穷大的数。
+    isNaN()               //检查某个值是否是数字。
+    parseFloat()          //left trim，match(/^[.+\-0-9eE]+/)
+    parseInt(String,n=10) //n进制,能识别0x开头
+    blur/focus()     //Removes/Sets focus
+    onhashchange(function() {}) // IE8+
+    print()      //Prints the content of the current window
+    stop()             //Stops the window from loading
+    //打开新窗口
+    open(URL, '(_top|_blank|_self)', posDescripter) //参数字符串 top|left|width|height=number, menubar|toolbar|scrollbars|status= yes|no
+
+    closed           //Returns a Boolean value indicating whether a window has been closed or not
+    defaultStatus    //Sets or returns the default text in the statusbar of a window
+    status           //Sets or returns the text in the statusbar of a window
+    frames           //Returns an array of all the frames (including iframes) in the current window
+    length           //Returns the number of frames (including iframes) in a window
+    name             //Sets or returns the name of a window
+    self             //Returns the current window
+    top              //Returns the topmost browser window
+    parent           //Returns the parent window of the current window
+    opener           //Returns a reference to the window that created the window
+
+    innerHeight/Width       //Returns the inner width of a window's content area
+    outerHeight/Width       //Returns the outer width of a window, including toolbars/scrollbars
+    pageX/YOffset      //Returns the pixels the current document has been scrolled (vertically) from the upper left corner of the window
+    screenLeft/Top        //Returns the y coordinate of the window relative to the screen
+    screenX/Y          //Returns the y coordinate of the window relative to the screen
+    moveBy(dx, dy)     //Moves a window relative to its current position
+    moveTo(x, y)       //Moves a window to the specified position
+    resizeBy(dw, dh)   //Resizes the window by the specified pixels
+    resizeTo(w, h)     //Resizes the window to the specified width and height
+    scrollBy(dx, dy)   //Scrolls the content by the specified number of pixels
+    scrollTo(x,y)      //Scrolls the content to the specified coordinates
+    //消息对话框
+    alert('message');
+    confirm('message');          //return boolean
+    prompt('message');    //return input String
 
 	//计时器(ms)
-	window.setInterval(func, time)   //     return identifier
-	window.setTimeout(func, time)    //     return identifier
-	window.clearInterval(identifier) //identifier return by setInterval
-	window.clearTimeout(identifier)  //identifier return by setTimeout
+	setInterval(func, time)   // return identifier
+	setTimeout(func, time)    // return identifier
+	clearInterval(identifier) //identifier return by setInterval
+	clearTimeout(identifier)  //identifier return by setTimeout
+
+    // es6
+    fetch(url, headers)
+        .then(resp => resp['json|text|blob|formData|arrayBuffer']())
+        .then(data=>console.log(data))
 
 //window.history对象
 	history.length
@@ -318,7 +472,7 @@
 
 //window.document
 	document.adoptNode(node)   //Returns an adopted node from another document to this document
-	document.cookie Returns //all name/value pairs of cookies in the document
+	document.cookie //all name/value pairs of cookies in the document
 	document.documentMode   //Returns the mode used by the browser to render the document
 	document.documentURI    //Sets or returns the location of the document
 	document.domConfig  //Returns the configuration used when normalizeDocument() is invoked
@@ -445,7 +599,7 @@
 	screenX/screenY //返回鼠标相对于用户屏幕的x/y坐标
 	pageX/pageY     //获取鼠标指针位置相对于父文档的 x/y像素坐标
 	layerX/layerY   //返回相对于触发事件的对象，鼠标位置的x/y坐标
-	offsetY/offsetX //同上
+	offsetY/offsetX //同上off
 	button          //返回按下的鼠标键。标准:0左1右2中  IE:0空1左2右3左右4中5左中6右中7全
 	type            //返回没有“on”作为前缀的事件名
 	target          //发生事件的节点，可能与currentTarget不同
@@ -481,12 +635,21 @@
 
 //节点属性
 	在DOM中，每个节点都是一个对象。DOM 节点有三个重要的属性：前两者只读
-						nodeType    nodeName        nodeValue
-	元素节点   1          标签名          null
-	属性节点   2          属性名          属性值
-	文本节点   3          #text           文本本身（包括单独的换行、tab、空格）
-	注释节点   8          #comment        注释本身
-	文档节点   9          #document       null
+
+                                nodeType    nodeName    nodeValue
+    ELEMENT_NODE                  1         标签名         null        一个 元素 节点，例如 <p> 和 <div>。
+    TEXT_NODE                     3         #text         文本本身      Element 或者 Attr 中实际的文字, 包括单独的换行、tab、空格
+    PROCESSING_INSTRUCTION_NODE   7                                   一个用于XML文档的 ProcessingInstruction ，例如 <?xml-stylesheet ... ?> 声明。
+    COMMENT_NODE                  8         #comment      注释本身     一个 Comment 节点。
+    DOCUMENT_NODE                 9         #document     null         一个 Document 节点。
+    DOCUMENT_TYPE_NODE            10                                   描述文档类型的 DocumentType 节点。例如 <!DOCTYPE html>  就是用于 HTML5 的。
+    DOCUMENT_FRAGMENT_NODE        11                                   一个 DocumentFragment 节点
+    # 以下在 DOM4 规范里被移除。
+    ATTRIBUTE_NODE                2                             元素 的耦合属性 。
+    CDATA_SECTION_NODE            4                             一个 CDATASection。
+    ENTITY_REFERENCE_NODE         5                             一个 XML 实体引用节点。
+    ENTITY_NODE                   6                             一个 XML <!ENTITY ...>
+    NOTATION_NODE                 12                            一个 XML <!NOTATION ...>
 
 //子元素节点访问 IE9+          子节点访问(换行,tab,空格也是文本节点，IE8及以前不记入)
 	children[]                  childNodes[]
@@ -496,7 +659,7 @@
 	nextElementSibling          nextSibling
 	previousElementSibling      previousSibling
 	childElementCount
-															hasChildNodes
+								hasChildNodes
 
 //内容访问
 	[outer|inner][HTML|Text] //outer包括自身，text去掉标签
@@ -776,32 +939,32 @@
 
 	ko.applyBindings(myViewModel) //绑定this到myViewModel, 可用bind绑定到其他context
 
-	data-bind =
-		text: some words,
-		html: <p>kfjkjkd</p> /,
-		css: {classname: Boolean},
-		attr: {attr: value, a: v}, //非合法属性名需加引号
-		style: {stylename: value, sl: v}, //camal-case,
-		value: inputValue,
-		visible enable disable: Boolean,
+	// data-bind =
+	// 	text: some words,
+	// 	html: <p>kfjkjkd</p> /,
+	// 	css: {classname: Boolean},
+	// 	attr: {attr: value, a: v}, //非合法属性名需加引号
+	// 	style: {stylename: value, sl: v}, //camal-case,
+	// 	value: inputValue,
+	// 	visible enable disable: Boolean,
 
-		event: {type: func, t: fc}
-		click: func(e),
-		submit: func(form), //默认阻止默认行为，可返回true继续执行
-		{eventType}Bubble: Boolean, //是否冒泡
+	// 	event: {type: func, t: fc}
+	// 	click: func(e),
+	// 	submit: func(form), //默认阻止默认行为，可返回true继续执行
+	// 	{eventType}Bubble: Boolean, //是否冒泡
 
-		options: Array,
-		optionsText: '',
-		optionsCaption: '',
-		selectOptions: Array,
-		value: '',
+	// 	options: Array,
+	// 	optionsText: '',
+	// 	optionsCaption: '',
+	// 	selectOptions: Array,
+	// 	value: '',
 
-		template:
-			name:
-			data: {}
-			afterRender: fnc(elements)
-			templateOptions: {}
-			foreach: Array
+	// 	template:
+	// 		name:
+	// 		data: {}
+	// 		afterRender: fnc(elements)
+	// 		templateOptions: {}
+	// 		foreach: Array
 
 
 	//创建自定义绑定
@@ -927,7 +1090,7 @@
 				<span>{{property | filter }}</span>       //使用过滤器
 				//其他预定义指令
 				<button ng-click="myfunc()"></button>       //绑定点击事件
-				<div ng-class="active: active"></div>     //toggle('active', active)
+				<div ng-class="{active: active}"></div>     //toggle('active', active)
 				<ul ng-repeat="item in list">
 					<li>{{item}}</li>
 					<li ng-bind="item"></li>
@@ -1000,8 +1163,8 @@
 	})
 
 // seajs
-// seajs 兼容AMD的依赖前置，而部分库只识别AMD，做一下兼容
-	define.amd = {};
+
+	define.amd = {}; // seajs 兼容AMD的依赖前置，而部分库只识别AMD，做一下兼容
 
 	seajs.config({
 		base: 'file:///Users/adonlee/data/ueditor/bower_components/',
@@ -1038,6 +1201,8 @@
 		->     010000      010100      001001      000011
 		-> b64(010000) b64(010100) b64(001001) b64(000011)
 		->  N           R           J           D
+
+
 enum ReadyState {
 		HAVE_NOTHING,
 		HAVE_METADATA,
@@ -1335,117 +1500,20 @@ defer:
 async:
 	IE < 10 不支持
 
+//tips
+    // scope:
+    // closure:
+    // hoisting: 变量提升 var > function > statements
+    //算术操作符 → 比较操作符 → 逻辑操作符 → "="赋值符号
+// regex
+    /(?:abc)/ //匹配abc但不捕获
+
+
+
+
 
 
 // ES6
-	let name = 'yizhi';
-	// 块级作用域
-	// 不存在变量提升
-	// 暂时性死区TDZ：块作用域内，let声明之前使用会抛出ReferenceError
-	// 不允许重复声明
-
-	const PI = 3.1415;
-	// 常量，重新复制不会报错，只会默默失败
-	// 拥有let的特性
-
-	exprot const PI = 3.14 // 暴露给其他模块的常量
-
-	global // 相当于浏览器环境中的window
-
-	// 解构赋值
-	// 1.字符串解构
-	const [a, b, c] = '123'; // a='1',b='2',c='3'
-	let {length : len} = '123'; // len=3, '字符串'也是对象
-
-	// 2.数组解构，并行赋值 (适合继承与Iterator接口的数据结构)
-	let [a, b, c=5] = [1, null]; // a=1,b=null,c=5
-		// 当对应值为undefined时，才使用默认值
-	let [, , c] = [1, 3, 5]; // c=5
-	let [a, [b]] = [1, [2, 3]]; // a=1,b=2
-
-	// 3.对象解构，不同于数组根据顺序取值，对象解构根据属性取值
-	var {age:alias, name} = {name: 'yizhi', age: 24} // name='yizhi', alias=24
-		// 先找到同名属性(age)，然后再赋给对应的变量(alias)。真正被赋值的是后者，而不是前者
-		// 相当于var {age:alias, name:name} = {name: 'yizhi', age: 24}
-	var {age, name:n} = {name: 'yizhi', age: 24} // n='yizhi', name=undefined
-	var {info:{name:n, age:a=25}} = {info: {name:'yizhi'}} // info=undefined,name=undefined, n='yizhi', a=25;
-
-	// 字符串扩展, 支持32位的UTF-16字符, 可以识别大于0xFFFF的码点
-		// JavaScript内部，字符以UTF-16的格式储存，每个字符固定为2个字节。对于那些需要4个字节储存的字符（Unicode码点大于0xFFFF的字符），JavaScript会认为它们是两个字符。
-		// JavaScript采用\uxxxx形式表示一个字符, ，这种表示法只限于\u0000——\uFFFF之间的字符。超出这个范围的字符，必须用两个双字节的形式表达
-		// ES6对这一点做出了改进，只要将码点放入大括号，就能正确解读该字符。==>
-		'\u{1F680}' === '\uD83D\uDE80' // true;
-
-		str.charAt ==> at
-		str.charCodeAt ==> codePointAt
-		String.fromCharCode ==> fromCodePoint
-		Boolean str.includes/startWith/endsWith(substr, offset)
-		String str.repeat(times:Integer)
-
-		// 模版字符串
-		// 以反引号(`)标志，
-		// 可换行
-		// 支持内嵌变量，写在${}之中，大括号内部可以放入任意的JavaScript表达式，可以进行运算，以及引用对象属性
-			`this is first line
-				这是内嵌变量：${name}
-			this is last line`
-
-	// 函数
-		// 参数默认值：
-			function(x=1, y) {};
-			// 只有当对应实参为undefined,才触发默认值
-			// 注意，非尾部的参数，也是可以设置默认值的
-			// 参数默认值所处的作用域，不是全局作用域，而是函数作用域
-			// 参数变量是默认声明的，所以不能用let或const再次声明
-
-		// 参数解构:
-		function show([x, y]) {console.log(x, y)} //  show([2,4]) ==> 2 4
-
-		// rest参数
-		// 必须是最后一个参数
-		// 函数的length属性，不包括rest参数
-		function (x, ...others) // others == arguments.slice(1);
-
-		// 箭头函数，简洁，简化回调函数
-		// 1）箭头函数没有自己的this，所以内部的this是定义时所在的对象，而不是使用时所在的对象。类似的还有arguments,super,new.target
-		// 2）不可以当作构造函数，也就是说，不可以使用new命令，否则会抛出一个错误。
-		// 3）不可以使用arguments对象，该对象在函数体内不存在。如果要用，可以用Rest参数代替。
-		// 4）不可以使用yield命令，因此箭头函数不能用作Generator函数。
-
-		var func = (arg1, arg2) => {return arg1 + arg2};
-		var func = (arg1, arg2) => arg1 + arg2;   // 输出作为返回
-		var func = arg1 => arg1;                  // 单个参数可以省略括号
-		var func = () => arg1;                    // 无参
-		var func = () => ({name: 'yizhi'});       // 返回对象须用大括号包裹，否则被视为代码块，语法错误
-		var func = ({name, age}) => {};           // 与变量解构结合
-
-		// 尾递归优化
-
-	// 扩展运算符:... // 将一个数组转为用逗号分隔的参数序列
-		func(...args) == func.apply(null, args)
-		[1, 3, ...others] == [1, 3].concat(others)
-		// 结合数组解构
-		const [first, ...rest] = [1, 2, 3] // first=1, rest=[2,3]
-		// 解构字符串
-		[...'解构'] == ['解', '构']
-
-	// 对象字面量
-		{name, say(){}} ==> {'name': name, 'say': function(){}}  // 直接写入变量，默认会以变量名作为键名，同样支持函数
-
-
-//tips
-	// scope:
-	// closure:
-	// hoisting: 变量提升 var > function > statements
-
-
-
-
-
-
-
-
-
 
 
 
